@@ -8,3 +8,7 @@ export default {
   }
 }
 </script>
+
+<template>
+  <p> About Us </p>
+</template>
