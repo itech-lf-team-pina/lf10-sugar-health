@@ -10,5 +10,8 @@ export default {
 </script>
 
 <template>
-  <p> About Us </p>
+  <h1> About Us </h1>
+  <p>
+    This page tells you about our product.
+  </p>
 </template>
