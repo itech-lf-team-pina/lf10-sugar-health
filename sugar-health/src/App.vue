@@ -1,24 +1,21 @@
 <template>
-    <nav>
-      <router-link to="/"> Home </router-link>
-      <router-link to="/login"> Login </router-link>
-      <router-link to="/aboutus"> About Us </router-link>
-      <router-link to="/settings"> Settings </router-link>
-      <router-link to="/sugarhistory"> Your History</router-link>
-      <router-link to="/challenges"> Challenges</router-link>
-      <router-view />
-    </nav>
-  
- 
+  <Sidebar />
+  <div :style="{ 'margin-left': sidebarWidth }">
+    <router-view />
+  </div>
 </template>
 
 <script>
 
+import SideBar from '@/components/sidebar/SideBar'
+import { sidebarWidth } from '@/components/sidebar/state'
+
 
 export default {
   name: 'App',
-  components: {
- 
+  components: { Sidebar: SideBar },
+  setup() {
+    return { sidebarWidth }
   }
 }
 </script>
