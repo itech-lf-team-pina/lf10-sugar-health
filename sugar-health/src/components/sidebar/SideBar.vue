@@ -27,6 +27,7 @@ export default {
     <SidebarLink to="/settings" icon="fa-solid fa-gear">Setting</SidebarLink>
     <SidebarLink to="/sugarhistory" icon="fa-solid fa-clock-rotate-left">Sugar History</SidebarLink>
     <SidebarLink to="/challenges" icon="fa-solid fa-dumbbell">Challenges</SidebarLink>
+    <SidebarLink to="/goPremium" icon="fa-solid fa-arrow-up">Go Premium</SidebarLink>
 
     <div>
       <span
