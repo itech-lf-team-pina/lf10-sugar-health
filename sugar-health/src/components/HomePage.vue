@@ -89,6 +89,13 @@ input[type=submit]:hover {
   background-color: #45a049;
 }
 
+.wrapper {
+  width: 75%;
+  margin: auto;
+  border: solid;
+  border-radius: 10px;
+  border-color: #45a049;
+}
 
 
 </style>
