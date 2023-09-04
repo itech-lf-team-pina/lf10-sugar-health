@@ -1,4 +1,6 @@
 <script>
+ import { BASE_URL } from "./baseUrl"
+
 export default {
   name: 'HomePage',
   props: {
@@ -6,15 +8,41 @@ export default {
   },
   data() {
     return {
-      sugarContent: 0,
-      productConsumed: 0,
+      sugarContent: '',
+      productConsumed: '',
+      sugarConsumed: ''
     };
   },
-  computed: {
-    sugarIntake() {
-      return (this.productConsumed / 100 * this.sugarContent).toFixed(2)
+  methods: {
+    calculateSugarIntake() {
+       this.sugarConsumed = (this.productConsumed / 100 * this.sugarContent).toFixed(2)
     },
-  },
+    sendFormData() {
+      // Send the data to the server
+      this.sendDataToServer();
+    },
+    async sendDataToServer() {
+      try {
+      const response = await fetch(`${BASE_URL}/sugarIntake`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ sugarConsumed: this.sugarConsumed }),
+        });
+
+        if (response.ok) {
+          const data = await response.json(); // Read the response as JSON
+          console.log(data.message);
+        } else {
+          // Handle error
+          console.error("Error sending data to the server.");
+        }
+      } catch (error) {
+        console.error("An error occurred:", error);
+      }
+    }
+  }
 }
 
 </script>
@@ -22,48 +50,44 @@ export default {
 <template>
   <h1>This is the Homepage</h1>
   <p> Welcome to your sugar tracking helper.</p>
-  
+
 
   <div class="wrapper">
     <div> Please enter you sugar intake for today. </div>
 
+    <form @submit.prevent="sendFormData" method="POST">
+      <!-- Text Input -->
+      <label for="sugarContent">Sugar Content in 100 gr of product</label>
+      <input v-model="sugarContent" type="text" id="sugarContent" name="sugarContent" required><br>
+
+      <label for="productConsumed">Consumed product in gr</label>
+      <input v-model="productConsumed" type="text" id="productConsumed" name="productConsumed" @blur="calculateSugarIntake" required><br>
+
+      <label for="last_name">Sugar consumed in gr</label>
+      <input readonly type="text" id="sugarConsumed" v-model="sugarConsumed"><br>
+
+      <input type="submit" value="Add">
+
+      <br />
+
+    </form>
+
+    <div> Or enter it manually. </div>
+
     <form action="" method="post">
-    <!-- Text Input -->
-    <label for="first_name">Sugar Content in 100 gr of product</label>
-    <input  v-model="sugarContent" type="text" id="sugarContent" name="sugarContent" required><br>
 
-    <label for="last_name">Consumed product in gr</label>
-    <input v-model="productConsumed" type="text" id="productConsumed" name="productConsumed" required><br>
+      <label for="sugarIntake">Sugar Intake</label>
+      <input type="text" id="sugarIntake" name="sugarIntake" required><br>
 
-    <label for="last_name">Sugar consumed in gr</label>
-    <input :value="sugarIntake" type="text" id="sugarConsumed" name="sugarConsumed" required><br>
-
-    <input type="submit" value="Add">
-
-    <br />
-
-  </form>
-
-  <div> Or enter it manually. </div>
-
-  <form action="" method="post">
-
-    <label for="last_name">Sugar Intake</label>
-    <input type="text" id="sugarIntake" name="sugarIntake" required><br>
-
-    <input type="submit" value="Add">
+      <input type="submit" value="Add">
 
 
-  </form>
+    </form>
   </div>
-
-
- 
 </template>
 
 
 <style>
-
 input[type=text] {
   width: 10%;
   padding: 12px 20px;
@@ -96,8 +120,6 @@ input[type=submit]:hover {
   border-radius: 10px;
   border-color: #45a049;
 }
-
-
 </style>
 
 
