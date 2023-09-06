@@ -9,12 +9,15 @@
 
 import SideBar from '@/components/sidebar/SideBar'
 import { sidebarWidth } from '@/components/sidebar/state'
+import { VueFire, VueFireAuth } from 'vuefire'
+
 
 
 export default {
   name: 'App',
-  components: { Sidebar: SideBar },
+  components: { Sidebar: SideBar, VueFire : VueFire },
   setup() {
+
     return { sidebarWidth }
   }
 }
