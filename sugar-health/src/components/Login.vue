@@ -1,9 +1,8 @@
-
 <script setup>
 import {
   getRedirectResult,
   signInWithRedirect,
-  // signOut,
+  signOut,
 } from 'firebase/auth'
 
 import { GoogleAuthProvider } from 'firebase/auth'
@@ -25,6 +24,11 @@ function signinRedirect() {
   }) 
 }
 
+function signingOut() {
+  signOut(auth)
+}
+
+
 // only on client side
 onMounted(() => {
   getRedirectResult(auth).catch((reason) => {
@@ -38,9 +42,9 @@ onMounted(() => {
 
 export default {
   name: 'LogIn',
-  props: {
-    msg: String
-  },
+  data() {
+   //  signedIn: false
+  }
 }
 </script>
 
@@ -50,7 +54,10 @@ export default {
   <div>
     <main>
     <ErrorBox v-if="error" :error="error" />
-    <button @click="signinRedirect">SignIn with Google</button>
+    <button  @click="signinRedirect">SignIn with Google</button>
+    <br/>
+    <button  @click="signingOut">Sign Out</button>
+
   </main>
    
   </div>

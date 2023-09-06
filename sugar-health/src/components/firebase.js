@@ -13,8 +13,6 @@ const firebaseConfig = {
 
 export const firebaseApp = initializeApp(firebaseConfig)
 
- 
-
 
 // used for the firestore refs
 const db = getFirestore(firebaseApp)
