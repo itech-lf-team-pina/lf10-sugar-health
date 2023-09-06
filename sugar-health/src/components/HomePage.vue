@@ -64,10 +64,9 @@ export default {
       <input v-model="productConsumed" type="text" id="productConsumed" name="productConsumed" @blur="calculateSugarIntake" required><br>
 
       <label for="last_name">Sugar consumed in gr</label>
-      <input readonly type="text" id="sugarConsumed" v-model="sugarConsumed"><br>
+      <input readonly type="text" id="sugarConsumed" v v-model="sugarConsumed"><br>
 
       <input type="submit" value="Add">
-
       <br />
 
     </form>
@@ -78,7 +77,6 @@ export default {
 
       <label for="sugarIntake">Sugar Intake</label>
       <input type="text" id="sugarIntake" name="sugarIntake" required><br>
-
       <input type="submit" value="Add">
 
 
