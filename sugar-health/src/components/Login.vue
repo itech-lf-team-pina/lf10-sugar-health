@@ -7,7 +7,7 @@ import {
 } from 'firebase/auth'
 
 import { GoogleAuthProvider } from 'firebase/auth'
-import { useCurrentUser,useFirebaseAuth } from 'vuefire'
+import { useCurrentUser, useFirebaseAuth, getCurrentUser } from 'vuefire'
 import { ref, onMounted } from "vue"
 import { BASE_URL } from "./baseUrl"
 
@@ -20,63 +20,68 @@ const googleAuthProvider = new GoogleAuthProvider()
 
 // display errors if any
 const error = ref(null)
-function signinRedirect() {
+async function signinRedirect() {
   signInWithPopup(auth, googleAuthProvider).catch((reason) => {
     console.error('Failed signinRedirect', reason)
     error.value = reason
   })
-  setTimeout( async () => {
-      console.log("adding user....")
+  console.log("adding user....")
+  let currentUser
+  
 
-      // check if already exists in the database
-
-      try {
-        const response = await fetch(`${BASE_URL}/member`, {
-          method: "GET",
-          headers: {
-          },
-        });
-
-        if (response.ok) {
-          const data = await response.json(); // Read the response as JSON
-          console.log("Members ", data.message);
-
-          // TODO: check data.message for the current uid
-        } else {
-          console.error("Error getting members.");
-        }
-
-      } catch (error) {
-        console.error("An error occurred:", error);
-      }
-
-      try {
-        console.log("sending post request...", useCurrentUser().value.displayName, useCurrentUser().value.uid )
+  await getCurrentUser().then(async (data) => {
+    try {
       const response = await fetch(`${BASE_URL}/member`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ 
-            displayName: useCurrentUser().value.displayName,
-            login_uid: useCurrentUser().value.uid
-           }),
-        });
+        method: "GET",
+        headers: {
+        },
+      });
 
-        if (response.ok) {
-          const data = await response.json(); // Read the response as JSON
-          console.log("Member created successfully! ", data.message);
-        } else {
-          // Handle error
-          console.error("Error sending data to the server.");
-        }
-      } catch (error) {
-        console.error("An error occurred:", error);
+      if (response.ok) {
+        const data = await response.json(); // Read the response as JSON
+        console.log("Members ", data.message);
+
+        // TODO: check data.message for the current uid
+      } else {
+        console.error("Error getting members.");
       }
 
+    } catch (error) {
+      console.error("An error occurred:", error);
+    }
 
-  }
-    , 5000 )}
+    console.log(data)
+
+    try {
+      console.log("sending post request...", data.reloadUserInfo.displayName, data.uid)
+      const response = await fetch(`${BASE_URL}/member`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          displayName: data.reloadUserInfo.displayName,
+          login_uid: data.uid
+        }),
+      });
+
+      if (response.ok) {
+        const data = await response.json(); // Read the response as JSON
+        console.log("Member created successfully! ", data.message);
+      } else {
+        // Handle error
+        console.error("Error sending data to the server.");
+      }
+    } catch (error) {
+      console.error("An error occurred:", error);
+    }
+
+  })
+
+  // check if already exists in the database
+
+
+}
 
 function signingOut() {
   signOut(auth)
@@ -91,20 +96,14 @@ onMounted(() => {
     error.value = reason
   })
 
-  // loading the user takes some time
-  setTimeout(() => {
-    console.log(useCurrentUser().value)
-    // useCurrentUser().value is a proxy, so we are directly accessing uid from value
-    if (useCurrentUser().value !== null && useCurrentUser().value !==undefined ) {
-      console.log(useCurrentUser().value.reloadUserInfo.displayName)
-      console.log(useCurrentUser().value)
-    }
-
-  }
-    , 5000)
-
-
+  getCurrentUser().then((data) => {
+    if (data) {
+      console.log(data.reloadUserInfo.displayName)
+      console.log(data.uid)
+    } 
+  })
 })
+
 </script>
 
 <script>
@@ -114,8 +113,8 @@ export default {
   data() {
   },
   methods: {
-    
-   }
+
+  }
 }
 
 
@@ -128,10 +127,8 @@ export default {
 
   <div>
     <main>
-      <ErrorBox v-if="error" :error="error" />
       <button v-if="!signedIn" @click="signinRedirect">SignIn with Google</button>
       <button v-else @click="signingOut">Sign Out</button>
-
     </main>
 
   </div>
