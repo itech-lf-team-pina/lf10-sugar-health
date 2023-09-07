@@ -2,7 +2,7 @@
 
 import {
   getRedirectResult,
-  signInWithRedirect,
+  signInWithPopup,
   signOut,
 } from 'firebase/auth'
 
@@ -21,15 +21,62 @@ const googleAuthProvider = new GoogleAuthProvider()
 // display errors if any
 const error = ref(null)
 function signinRedirect() {
-  signInWithRedirect(auth, googleAuthProvider).catch((reason) => {
+  signInWithPopup(auth, googleAuthProvider).catch((reason) => {
     console.error('Failed signinRedirect', reason)
     error.value = reason
   })
-  setTimeout(() => {
-    this.addUser()
+  setTimeout( async () => {
+      console.log("adding user....")
+
+      // check if already exists in the database
+
+      try {
+        const response = await fetch(`${BASE_URL}/member`, {
+          method: "GET",
+          headers: {
+          },
+        });
+
+        if (response.ok) {
+          const data = await response.json(); // Read the response as JSON
+          console.log("Members ", data.message);
+
+          // TODO: check data.message for the current uid
+        } else {
+          console.error("Error getting members.");
+        }
+
+      } catch (error) {
+        console.error("An error occurred:", error);
+      }
+
+      try {
+        console.log("sending post request...", useCurrentUser().value.displayName, useCurrentUser().value.uid )
+      const response = await fetch(`${BASE_URL}/member`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ 
+            displayName: useCurrentUser().value.displayName,
+            login_uid: useCurrentUser().value.uid
+           }),
+        });
+
+        if (response.ok) {
+          const data = await response.json(); // Read the response as JSON
+          console.log("Member created successfully! ", data.message);
+        } else {
+          // Handle error
+          console.error("Error sending data to the server.");
+        }
+      } catch (error) {
+        console.error("An error occurred:", error);
+      }
+
+
   }
-    , 5000)
-}
+    , 5000 )}
 
 function signingOut() {
   signOut(auth)
@@ -67,62 +114,11 @@ export default {
   data() {
   },
   methods: {
-    addUser() {
-      // Send the data to the server
-      this.addUserToDb();
-    },
-    async addUserToDb() {
-      console.log("adding user....")
-
-      // check if already exists in the database
-
-      try {
-        const response = await fetch(`${BASE_URL}/member`, {
-          method: "GET",
-          headers: {
-          },
-        });
-
-        if (response.ok) {
-          const data = await response.json(); // Read the response as JSON
-          console.log("Members ", data.message);
-
-          // TODO: check data.message for the current uid
-        } else {
-          console.error("Error getting members.");
-        }
-
-      } catch (error) {
-        console.error("An error occurred:", error);
-      }
-
-      try {
-        console.log("sending post request...")
-      const response = await fetch(`${BASE_URL}/member`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ 
-            displayName: useCurrentUser().value.displayName,
-            google_client_id: useCurrentUser().value.uid
-           }),
-        });
-
-        if (response.ok) {
-          const data = await response.json(); // Read the response as JSON
-          console.log("Member created successfully! ", data.message);
-        } else {
-          // Handle error
-          console.error("Error sending data to the server.");
-        }
-      } catch (error) {
-        console.error("An error occurred:", error);
-      }
-    }
-  }
-
+    
+   }
 }
+
+
 </script>
 
 <template>
