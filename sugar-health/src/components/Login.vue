@@ -20,16 +20,11 @@ const googleAuthProvider = new GoogleAuthProvider()
 
 // display errors if any
 const error = ref(null)
-async function signinRedirect() {
-  signInWithPopup(auth, googleAuthProvider).catch((reason) => {
-    console.error('Failed signinRedirect', reason)
-    error.value = reason
-  })
-  console.log("adding user....")
-  let currentUser
-  
-
-  await getCurrentUser().then(async (data) => {
+function signinRedirect() {
+  signInWithPopup(auth, googleAuthProvider)
+  .then(() =>  getCurrentUser()
+  ).then(async (data) => {
+      // check if already exists in the database
     try {
       const response = await fetch(`${BASE_URL}/member`, {
         method: "GET",
@@ -38,29 +33,27 @@ async function signinRedirect() {
       });
 
       if (response.ok) {
-        const data = await response.json(); // Read the response as JSON
-        console.log("Members ", data.message);
+        const resp = await response.json(); // Read the response as JSON
+        console.log("Members ", resp.message);
 
         // TODO: check data.message for the current uid
       } else {
         console.error("Error getting members.");
       }
-
     } catch (error) {
       console.error("An error occurred:", error);
     }
-
     console.log(data)
 
     try {
-      console.log("sending post request...", data.reloadUserInfo.displayName, data.uid)
+      console.log("sending post request...", data.displayName, data.uid)
       const response = await fetch(`${BASE_URL}/member`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          displayName: data.reloadUserInfo.displayName,
+          displayName: data.displayName,
           login_uid: data.uid
         }),
       });
@@ -77,10 +70,10 @@ async function signinRedirect() {
     }
 
   })
-
-  // check if already exists in the database
-
-
+  .catch((reason) => {
+    console.error('Failed signinRedirect', reason)
+    error.value = reason
+  })
 }
 
 function signingOut() {
@@ -98,7 +91,7 @@ onMounted(() => {
 
   getCurrentUser().then((data) => {
     if (data) {
-      console.log(data.reloadUserInfo.displayName)
+      console.log(data.displayName)
       console.log(data.uid)
     } 
   })
