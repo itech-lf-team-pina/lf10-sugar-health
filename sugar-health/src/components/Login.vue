@@ -1,5 +1,4 @@
 <script setup>
-
 import {
   getRedirectResult,
   signInWithPopup,
@@ -17,13 +16,14 @@ let signedIn = useCurrentUser()
 const auth = useFirebaseAuth() // only exists on client side
 const googleAuthProvider = new GoogleAuthProvider()
 
-
 // display errors if any
 const error = ref(null)
 function signinRedirect() {
-  signInWithPopup(auth, googleAuthProvider)
-  .then(() =>  getCurrentUser()
-  ).then(async (data) => {
+    // this methods returns Promise<UserCredentials>, can access User properties through "user" property.
+
+  signInWithPopup(auth, googleAuthProvider).then(async (data) => {
+    console.log("Sign in with popup returns UserCredentials: ", data)
+
       // check if already exists in the database
     try {
       const response = await fetch(`${BASE_URL}/member`, {
@@ -43,18 +43,17 @@ function signinRedirect() {
     } catch (error) {
       console.error("An error occurred:", error);
     }
-    console.log(data)
 
     try {
-      console.log("sending post request...", data.displayName, data.uid)
+      console.log("sending post request...", data.user.displayName, data.user.uid)
       const response = await fetch(`${BASE_URL}/member`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          displayName: data.displayName,
-          login_uid: data.uid
+          displayName: data.user.displayName,
+          login_uid: data.user.uid
         }),
       });
 
@@ -63,7 +62,7 @@ function signinRedirect() {
         console.log("Member created successfully! ", data.message);
       } else {
         // Handle error
-        console.error("Error sending data to the server.");
+        console.error("Error while addind a member.");
       }
     } catch (error) {
       console.error("An error occurred:", error);
@@ -89,6 +88,7 @@ onMounted(() => {
     error.value = reason
   })
 
+  // this methods returns Promise<User>, can access its properties directly
   getCurrentUser().then((data) => {
     if (data) {
       console.log(data.displayName)
@@ -103,8 +103,6 @@ onMounted(() => {
 
 export default {
   name: 'LogIn',
-  data() {
-  },
   methods: {
 
   }
@@ -116,7 +114,7 @@ export default {
 <template>
   <h1>Login Page</h1>
   <p v-if="!signedIn"> Please login to use the service. Thank you.</p>
-  <p v-else> Welcome, {{ useCurrentUser().value.reloadUserInfo.displayName }}</p>
+  <p v-else> Welcome, {{ useCurrentUser().value.displayName }}</p>
 
   <div>
     <main>
