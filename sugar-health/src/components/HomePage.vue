@@ -48,7 +48,7 @@ export default {
 </script>
 
 <template>
-  <h1>This is the Homepage</h1>
+  <h1>Here you can enter your sugar intake</h1>
   <p> Welcome to your sugar tracking helper.</p>
 
 
@@ -109,6 +109,10 @@ input[type=submit] {
 
 input[type=submit]:hover {
   background-color: #45a049;
+}
+
+div {
+  margin-top: 2%;
 }
 
 .wrapper {

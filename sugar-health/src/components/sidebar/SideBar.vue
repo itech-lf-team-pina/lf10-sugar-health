@@ -21,13 +21,15 @@ export default {
       <span v-else>Sugar Health</span>
     </h1>
 
-    <SidebarLink to="/" icon="fas fa-home">Home</SidebarLink>
-    <SidebarLink to="/login" icon="fa-solid fa-arrow-right-to-bracket">Log In</SidebarLink>
-    <SidebarLink to="/aboutus" icon="fa-regular fa-address-card">About Us</SidebarLink>
-    <SidebarLink to="/settings" icon="fa-solid fa-gear">Setting</SidebarLink>
+    
+    <SidebarLink to="/login" icon="fa-solid fa-arrow-right-to-bracket">Sign In/Out</SidebarLink>
+    <SidebarLink to="/" icon="fa-solid fa-check-double">Enter data</SidebarLink>
     <SidebarLink to="/sugarhistory" icon="fa-solid fa-clock-rotate-left">Sugar History</SidebarLink>
     <SidebarLink to="/challenges" icon="fa-solid fa-dumbbell">Challenges</SidebarLink>
+    
+    <SidebarLink to="/settings" icon="fa-solid fa-gear">Setting</SidebarLink>
     <SidebarLink to="/goPremium" icon="fa-solid fa-arrow-up">Go Premium</SidebarLink>
+    <SidebarLink to="/aboutus" icon="fa-regular fa-address-card">About Us</SidebarLink>
 
     <div>
       <span
@@ -37,7 +39,7 @@ export default {
     >
       <i class="fas fa-angle-double-left" />
     </span>
-    <button> Log Out</button  >
+   
   </div>
     
 

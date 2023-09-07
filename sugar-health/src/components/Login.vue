@@ -112,8 +112,8 @@ export default {
 </script>
 
 <template>
-  <h1>Login Page</h1>
-  <p v-if="!signedIn"> Please login to use the service. Thank you.</p>
+  <h1>Sign In Page</h1>
+  <p v-if="!signedIn"> Please Sign In to use the service. Thank you.</p>
   <p v-else> Welcome, {{ useCurrentUser().value.displayName }}</p>
 
   <div>
