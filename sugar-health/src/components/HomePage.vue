@@ -112,9 +112,7 @@ input[type=submit]:hover {
   background-color: #45a049;
 }
 
-div {
-  margin-top: 2%;
-}
+
 
 .wrapper {
   width: 75%;
@@ -122,6 +120,7 @@ div {
   border: solid;
   border-radius: 10px;
   border-color: #45a049;
+  
 }
 </style>
 
