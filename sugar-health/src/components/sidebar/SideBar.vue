@@ -31,6 +31,8 @@ export default {
     <SidebarLink to="/goPremium" icon="fa-solid fa-arrow-up">Go Premium</SidebarLink>
     <SidebarLink to="/aboutus" icon="fa-regular fa-address-card">About Us</SidebarLink>
 
+
+
     <div>
       <span class="collapse-icon" :class="{ 'rotate-180': collapsed }" @click="toggleSidebar">
 
@@ -38,13 +40,9 @@ export default {
       </span>
 
       <a href="/login">
-        <button> Log Out </button>
+        <button> Sign Out </button>
       </a>
       
-     
-      
-
-
     </div>
 
 
@@ -60,6 +58,7 @@ export default {
 </style>
 
 <style scoped>
+
 .sidebar {
   color: white;
   background-color: var(--sidebar-bg-color);

@@ -19,12 +19,12 @@ const googleAuthProvider = new GoogleAuthProvider()
 // display errors if any
 const error = ref(null)
 function signinRedirect() {
-    // this methods returns Promise<UserCredentials>, can access User properties through "user" property.
+  // this methods returns Promise<UserCredentials>, can access User properties through "user" property.
 
   signInWithPopup(auth, googleAuthProvider).then(async (data) => {
     console.log("Sign in with popup returns UserCredentials: ", data)
 
-      // check if already exists in the database
+    /*   // check if already exists in the database
     try {
       const response = await fetch(`${BASE_URL}/member`, {
         method: "GET",
@@ -42,7 +42,7 @@ function signinRedirect() {
       }
     } catch (error) {
       console.error("An error occurred:", error);
-    }
+    } */
 
     try {
       console.log("sending post request...", data.user.displayName, data.user.uid)
@@ -69,10 +69,10 @@ function signinRedirect() {
     }
 
   })
-  .catch((reason) => {
-    console.error('Failed signinRedirect', reason)
-    error.value = reason
-  })
+    .catch((reason) => {
+      console.error('Failed signinRedirect', reason)
+      error.value = reason
+    })
 }
 
 function signingOut() {
@@ -91,9 +91,9 @@ onMounted(() => {
   // this methods returns Promise<User>, can access its properties directly
   getCurrentUser().then((data) => {
     if (data) {
-      console.log(data.displayName)
-      console.log(data.uid)
-    } 
+      console.log(data.user.displayName)
+      console.log(data.user.uid)
+    }
   })
 })
 
@@ -105,8 +105,14 @@ export default {
   name: 'LogIn',
   methods: {
 
-  }
+  },
+  /* data() {
+  return {
+    displayName: data.displayName,
+    userID: data.uid
+  }; */
 }
+
 
 
 </script>

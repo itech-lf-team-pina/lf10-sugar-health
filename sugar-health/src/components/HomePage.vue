@@ -28,6 +28,7 @@ export default {
           headers: {
             "Content-Type": "application/json",
           },
+          // Add UUID of User
           body: JSON.stringify({ sugarConsumed: this.sugarConsumed }),
         });
 
