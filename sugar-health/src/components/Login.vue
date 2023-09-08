@@ -8,7 +8,7 @@ import {
 import { GoogleAuthProvider } from 'firebase/auth'
 import { useCurrentUser, useFirebaseAuth, getCurrentUser } from 'vuefire'
 import { ref, onMounted } from "vue"
-import { BASE_URL } from "./baseUrl"
+import { BACKEND_URL } from "./baseUrl"
 
 
 let signedIn = useCurrentUser()
@@ -24,9 +24,9 @@ function signinRedirect() {
   signInWithPopup(auth, googleAuthProvider).then(async (data) => {
     console.log("Sign in with popup returns UserCredentials: ", data)
 
-    /*   // check if already exists in the database
+      // check if already exists in the database. DONE IN BACKEND
     try {
-      const response = await fetch(`${BASE_URL}/member`, {
+      const response = await fetch(`${BACKEND_URL}/member/`, {
         method: "GET",
         headers: {
         },
@@ -34,7 +34,7 @@ function signinRedirect() {
 
       if (response.ok) {
         const resp = await response.json(); // Read the response as JSON
-        console.log("Members ", resp.message);
+        console.log("Members: ", resp.message);
 
         // TODO: check data.message for the current uid
       } else {
@@ -42,11 +42,12 @@ function signinRedirect() {
       }
     } catch (error) {
       console.error("An error occurred:", error);
-    } */
+    }
 
+    // To make a new User
     try {
       console.log("sending post request...", data.user.displayName, data.user.uid)
-      const response = await fetch(`${BASE_URL}/member`, {
+      const response = await fetch(`${BACKEND_URL}/member/`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -90,10 +91,12 @@ onMounted(() => {
 
   // this methods returns Promise<User>, can access its properties directly
   getCurrentUser().then((data) => {
+
     if (data) {
-      console.log(data.user.displayName)
-      console.log(data.user.uid)
+      console.log(data.displayName)
+      console.log(data.uid)
     }
+    return (data)
   })
 })
 
@@ -104,13 +107,8 @@ onMounted(() => {
 export default {
   name: 'LogIn',
   methods: {
-
-  },
-  /* data() {
-  return {
-    displayName: data.displayName,
-    userID: data.uid
-  }; */
+    getCurrentUser
+  }
 }
 
 
