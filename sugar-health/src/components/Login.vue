@@ -34,9 +34,8 @@ function signinRedirect() {
 
       if (response.ok) {
         const resp = await response.json(); // Read the response as JSON
-        console.log("Members: ", resp.message);
+        console.log("Members: ", resp);
 
-        // TODO: check data.message for the current uid
       } else {
         console.error("Error getting members.");
       }
@@ -60,7 +59,8 @@ function signinRedirect() {
 
       if (response.ok) {
         const data = await response.json(); // Read the response as JSON
-        console.log("Member created successfully! ", data.message);
+        console.log("Member created successfully! ", data.displayName);
+        console.log(data.login_uid);
       } else {
         // Handle error
         console.error("Error while addind a member.");
