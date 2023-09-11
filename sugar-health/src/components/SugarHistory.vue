@@ -12,7 +12,7 @@ export default {
       console.log("From local Storage: " + localStorage.getItem("memberId"))
       const memberID = localStorage.getItem("memberId"); 
       try {
-        const response = await fetch(`${BACKEND_URL}/${memberID}//sugar/`, {
+        const response = await fetch(`${BACKEND_URL}/${memberID}/sugar/`, {
           method: "GET",
           headers: {
           },
