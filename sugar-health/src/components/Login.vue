@@ -57,6 +57,10 @@ function signinRedirect() {
         }),
       });
 
+      localStorage.setItem("displayName", JSON.stringify(data.user.displayName))
+      localStorage.setItem("uid", data.user.uid)
+      
+
       if (response.ok) {
         const data = await response.json(); // Read the response as JSON
         console.log("Member created successfully! ", data.displayName);
@@ -93,8 +97,10 @@ onMounted(() => {
   getCurrentUser().then((data) => {
 
     if (data) {
+      
       console.log(data.displayName)
       console.log(data.uid)
+      
     }
     return (data)
   })
