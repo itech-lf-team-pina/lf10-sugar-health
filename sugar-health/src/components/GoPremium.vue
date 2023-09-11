@@ -43,7 +43,7 @@ export default {
             <td><i class="fa-solid fa-check" style="color: #51b15b;"></i></td>
         </tr>
         <tr>
-            <td class="condition">Add free</td>
+            <td class="condition">Ad free</td>
             <td><i class="fa-solid fa-x" style="color: #cb1a1a;"></i></td>
             <td><i class="fa-solid fa-check" style="color: #51b15b;"></i></td>
         </tr>
