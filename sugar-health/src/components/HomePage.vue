@@ -1,5 +1,5 @@
 <script>
- import { BASE_URL } from "./baseUrl"
+ import { BACKEND_URL } from "./baseUrl"
 
 export default {
   name: 'HomePage',
@@ -10,7 +10,8 @@ export default {
     return {
       sugarContent: '',
       productConsumed: '',
-      sugarConsumed: ''
+      sugarConsumed: '',
+      description : ''
     };
   },
   methods: {
@@ -22,14 +23,19 @@ export default {
       this.sendDataToServer();
     },
     async sendDataToServer() {
+      console.log(this.description)
       try {
-      const response = await fetch(`${BASE_URL}/sugarIntake`, {
+      const response = await fetch(`${BACKEND_URL}/sugarIntake`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
           // Add UUID of User
-          body: JSON.stringify({ sugarConsumed: this.sugarConsumed }),
+          body: JSON.stringify({ 
+            sugarConsumed: this.sugarConsumed,
+            description: this.description
+          
+          }),
         });
 
         if (response.ok) {
@@ -58,30 +64,24 @@ export default {
 
     <form @submit.prevent="sendFormData" method="POST">
       <!-- Text Input -->
+      <label for="productDescription">Product Description</label>
+      <input v-model="description" type="text" id="productDescription" name="productDescription" required><br>
+
       <label for="sugarContent">Sugar Content in 100 gr of product</label>
-      <input v-model="sugarContent" type="text" id="sugarContent" name="sugarContent" required><br>
+      <input v-model="sugarContent" type="text" id="sugarContent" name="sugarContent" required @input="calculateSugarIntake"><br>
 
       <label for="productConsumed">Consumed product in gr</label>
-      <input v-model="productConsumed" type="text" id="productConsumed" name="productConsumed" @blur="calculateSugarIntake" required><br>
+      <input v-model="productConsumed" type="text" id="productConsumed" name="productConsumed" @input="calculateSugarIntake" required><br>
 
       <label for="last_name">Sugar consumed in gr</label>
-      <input readonly type="text" id="sugarConsumed" v v-model="sugarConsumed"><br>
+      <input type="text" id="sugarConsumed" v v-model="sugarConsumed"><br>
 
       <input type="submit" value="Add">
       <br />
 
     </form>
 
-    <div> Or enter it manually. </div>
 
-    <form action="" method="post">
-
-      <label for="sugarIntake">Sugar Intake</label>
-      <input type="text" id="sugarIntake" name="sugarIntake" required><br>
-      <input type="submit" value="Add">
-
-
-    </form>
   </div>
 </template>
 
