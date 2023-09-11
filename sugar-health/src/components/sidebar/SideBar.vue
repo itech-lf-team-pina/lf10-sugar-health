@@ -1,9 +1,14 @@
 <script>
 import SidebarLink from './SidebarLink'
 import { collapsed, toggleSidebar, sidebarWidth } from './state'
+import { useCurrentUser } from 'vuefire'
+
 
 export default {
   props: {},
+  data() {return {
+    signedIn : useCurrentUser()
+  }},
   components: { SidebarLink },
   setup() {
     return { collapsed, toggleSidebar, sidebarWidth }
@@ -23,7 +28,7 @@ export default {
 
 
     <SidebarLink to="/login" icon="fa-solid fa-arrow-right-to-bracket">Sign In/Out</SidebarLink>
-    <SidebarLink to="/" icon="fa-solid fa-check-double">Enter data</SidebarLink>
+    <SidebarLink v-if="signedIn" to="/" icon="fa-solid fa-check-double">Enter data</SidebarLink>
     <SidebarLink to="/sugarhistory" icon="fa-solid fa-clock-rotate-left">Sugar History</SidebarLink>
     <SidebarLink to="/challenges" icon="fa-solid fa-dumbbell">Challenges</SidebarLink>
 
