@@ -1,8 +1,8 @@
 import HomePage from './components/HomePage.vue'
-import LogIn from './components/LogIn.vue'
+import LogIn from './components/Login.vue'
 import AboutUs from './components/AboutUs.vue'
 import Settings from './components/UserSettings'
-import SugarHistory from './components/SugarHistory.vue'
+import SugarHistory from './components/SugarHistory/SugarHistory.vue'
 import ChallengesAll from './components/ChallengesAll.vue'
 import GoPremium from './components/GoPremium.vue'
 
