@@ -24,7 +24,7 @@ function signinRedirect() {
   signInWithPopup(auth, googleAuthProvider).then(async (data) => {
     console.log("Sign in with popup returns UserCredentials: ", data)
 
-      // check if already exists in the database. DONE IN BACKEND
+    // check if already exists in the database. DONE IN BACKEND
     try {
       const response = await fetch(`${BACKEND_URL}/member/`, {
         method: "GET",
@@ -57,13 +57,16 @@ function signinRedirect() {
         }),
       });
 
-      localStorage.setItem("displayName", JSON.stringify(data.user.displayName))
-      localStorage.setItem("uid", data.user.uid)
-      
+
+
 
       if (response.ok) {
         const data = await response.json(); // Read the response as JSON
+        localStorage.setItem("displayName", JSON.stringify(data.displayName));
+        localStorage.setItem("memberId", data.id);
+
         console.log("Member created successfully! ", data.displayName);
+        console.log(data.id);
         console.log(data.login_uid);
       } else {
         // Handle error
@@ -97,10 +100,10 @@ onMounted(() => {
   getCurrentUser().then((data) => {
 
     if (data) {
-      
+
       console.log(data.displayName)
       console.log(data.uid)
-      
+
     }
     return (data)
   })

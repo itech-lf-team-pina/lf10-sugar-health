@@ -24,24 +24,24 @@ export default {
     },
     async sendDataToServer() {
       console.log(this.description)
-      console.log("From local Storage" + localStorage.getItem("uid"))
+      console.log("From local Storage: " + localStorage.getItem("memberId"))
       try {
         const response = await fetch(`${BACKEND_URL}/sugar/`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
-          // Add UUID of User
+          
           body: JSON.stringify({
             intake: this.sugarConsumed,
             description: this.description,
-            memberID: localStorage.getItem("uid")
+            memberID: localStorage.getItem("memberId")
           }),
         });
 
         if (response.ok) {
           const data = await response.json(); // Read the response as JSON
-          console.log(data.message);
+          console.log("the data message: " + data.intake);
         } else {
           // Handle error
           console.error("Error sending data to the server.");
