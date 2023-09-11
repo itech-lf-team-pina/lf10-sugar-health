@@ -7,8 +7,8 @@ import ChallengesAll from './components/ChallengesAll.vue'
 import GoPremium from './components/GoPremium.vue'
 
 const routes = [
-    {path : '/', component : HomePage},
-    {path : '/login', component : LogIn},
+    {path : '/sugarIntake', component : HomePage},
+    {path : '/', component : LogIn},
     {path : '/aboutus', component : AboutUs},
     {path : '/settings', component : Settings},
     {path : '/sugarhistory', component : SugarHistory},

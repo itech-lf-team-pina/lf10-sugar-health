@@ -27,13 +27,13 @@ export default {
     </h1>
 
 
-    <SidebarLink to="/login" icon="fa-solid fa-arrow-right-to-bracket">Sign In/Out</SidebarLink>
-    <SidebarLink v-if="signedIn" to="/" icon="fa-solid fa-check-double">Enter data</SidebarLink>
-    <SidebarLink to="/sugarhistory" icon="fa-solid fa-clock-rotate-left">Sugar History</SidebarLink>
-    <SidebarLink to="/challenges" icon="fa-solid fa-dumbbell">Challenges</SidebarLink>
+    <SidebarLink to="/" icon="fa-solid fa-arrow-right-to-bracket">Sign In/Out</SidebarLink>
+    <SidebarLink v-if="signedIn" to="/sugarIntake" icon="fa-solid fa-check-double">Enter data</SidebarLink>
+    <SidebarLink v-if="signedIn" to="/sugarhistory" icon="fa-solid fa-clock-rotate-left">Sugar History</SidebarLink>
+    <SidebarLink v-if="signedIn" to="/challenges" icon="fa-solid fa-dumbbell">Challenges</SidebarLink>
 
-    <SidebarLink to="/settings" icon="fa-solid fa-gear">Setting</SidebarLink>
-    <SidebarLink to="/goPremium" icon="fa-solid fa-arrow-up">Go Premium</SidebarLink>
+    <SidebarLink v-if="signedIn" to="/settings" icon="fa-solid fa-gear">Setting</SidebarLink>
+    <SidebarLink v-if="signedIn" to="/goPremium" icon="fa-solid fa-arrow-up">Go Premium</SidebarLink>
     <SidebarLink to="/aboutus" icon="fa-regular fa-address-card">About Us</SidebarLink>
 
 
@@ -44,7 +44,7 @@ export default {
         <i class="fas fa-angle-double-left"></i>
       </span>
 
-      <a href="/login">
+      <a href="/">
         <button> Sign Out </button>
       </a>
       
