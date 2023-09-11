@@ -1,5 +1,5 @@
 <script>
- import { BACKEND_URL } from "./baseUrl"
+import { BACKEND_URL } from "./baseUrl"
 
 export default {
   name: 'HomePage',
@@ -11,12 +11,12 @@ export default {
       sugarContent: '',
       productConsumed: '',
       sugarConsumed: '',
-      description : ''
+      description: ''
     };
   },
   methods: {
     calculateSugarIntake() {
-       this.sugarConsumed = (this.productConsumed / 100 * this.sugarContent).toFixed(2)
+      this.sugarConsumed = (this.productConsumed / 100 * this.sugarContent).toFixed(2)
     },
     sendFormData() {
       // Send the data to the server
@@ -24,17 +24,18 @@ export default {
     },
     async sendDataToServer() {
       console.log(this.description)
+      console.log("From local Storage" + localStorage.getItem("uid"))
       try {
-      const response = await fetch(`${BACKEND_URL}/sugarIntake`, {
+        const response = await fetch(`${BACKEND_URL}/sugar/`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
           // Add UUID of User
-          body: JSON.stringify({ 
-            sugarConsumed: this.sugarConsumed,
-            description: this.description
-          
+          body: JSON.stringify({
+            intake: this.sugarConsumed,
+            description: this.description,
+            memberID: localStorage.getItem("uid")
           }),
         });
 
@@ -68,10 +69,11 @@ export default {
       <input v-model="description" type="text" id="productDescription" name="productDescription" required><br>
 
       <label for="sugarContent">Sugar Content in 100 gr of product</label>
-      <input v-model="sugarContent" type="text" id="sugarContent" name="sugarContent" required @input="calculateSugarIntake"><br>
+      <input v-model="sugarContent" type="text" id="sugarContent" name="sugarContent" @input="calculateSugarIntake"><br>
 
       <label for="productConsumed">Consumed product in gr</label>
-      <input v-model="productConsumed" type="text" id="productConsumed" name="productConsumed" @input="calculateSugarIntake" required><br>
+      <input v-model="productConsumed" type="text" id="productConsumed" name="productConsumed"
+        @input="calculateSugarIntake"><br>
 
       <label for="last_name">Sugar consumed in gr</label>
       <input type="text" id="sugarConsumed" v v-model="sugarConsumed"><br>
@@ -120,7 +122,7 @@ input[type=submit]:hover {
   border: solid;
   border-radius: 10px;
   border-color: #45a049;
-  
+
 }
 </style>
 
