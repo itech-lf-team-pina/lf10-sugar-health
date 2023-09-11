@@ -28,7 +28,7 @@ export default {
             <td><i class="fa-solid fa-check" style="color: #51b15b;"></i></td>
         </tr>
         <tr>
-            <td class="condition">Challenges</td>
+            <td class="condition">Statistic</td>
             <td><i class="fa-solid fa-check" style="color: #51b15b;"></i></td>
             <td><i class="fa-solid fa-check" style="color: #51b15b;"></i></td>
         </tr>
@@ -58,7 +58,7 @@ export default {
             <td><i class="fa-solid fa-check" style="color: #51b15b;"></i></td>
         </tr>
         <tr>
-            <td class="condition">Statistics</td>
+            <td class="condition">Challenges</td>
             <td><i class="fa-solid fa-x" style="color: #cb1a1a;"></i></td>
             <td><i class="fa-solid fa-check" style="color: #51b15b;"></i></td>
         </tr>
