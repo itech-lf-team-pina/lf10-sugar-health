@@ -1,9 +1,6 @@
 <script>
 export default {
-  name: 'UserSettings',
-  props: {
-    msg: String
-  }
+  name: 'UserSettings'
 }
 </script>
 

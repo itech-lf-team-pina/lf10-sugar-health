@@ -1,9 +1,6 @@
 <script>
 export default {
     name: 'GoPremium',
-    props: {
-        msg: String
-    }
 }
 </script>
 
@@ -96,7 +93,7 @@ th {
     padding: 8px;
 }
 
-tr.noBorder td{
+tr.noBorder td {
     border: 0;
 }
 

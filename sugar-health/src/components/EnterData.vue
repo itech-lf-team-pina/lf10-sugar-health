@@ -28,7 +28,7 @@ export default {
           headers: {
             "Content-Type": "application/json",
           },
-          
+
           body: JSON.stringify({
             intake: this.sugarConsumed,
             description: this.description,
@@ -73,7 +73,7 @@ export default {
         @input="calculateSugarIntake"><br>
 
       <label for="last_name">Sugar consumed in gr</label>
-      <input type="text" id="sugarConsumed" v v-model="sugarConsumed"><br>
+      <input type="text" id="sugarConsumed" v-model="sugarConsumed"><br>
 
       <input type="submit" value="Add">
       <br />
