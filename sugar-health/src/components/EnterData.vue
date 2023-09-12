@@ -2,10 +2,7 @@
 import { BACKEND_URL } from "./baseUrl"
 
 export default {
-  name: 'HomePage',
-  props: {
-    msg: String
-  },
+  name: 'EnterData',
   data() {
     return {
       sugarContent: '',

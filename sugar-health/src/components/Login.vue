@@ -19,12 +19,10 @@ const googleAuthProvider = new GoogleAuthProvider()
 // display errors if any
 const error = ref(null)
 function signinRedirect() {
-  // this methods returns Promise<UserCredentials>, can access User properties through "user" property.
 
   signInWithPopup(auth, googleAuthProvider).then(async (data) => {
     console.log("Sign in with popup returns UserCredentials: ", data)
 
-    // check if already exists in the database. DONE IN BACKEND
     try {
       const response = await fetch(`${BACKEND_URL}/member/`, {
         method: "GET",
@@ -88,8 +86,6 @@ function signingOut() {
   window.location.reload()
 }
 
-
-
 onMounted(() => {
   getRedirectResult(auth).catch((reason) => {
     console.error('Failed redirect result', reason)
@@ -111,15 +107,11 @@ onMounted(() => {
 
 </script>
 
-<script>
+<script> 
 
 export default {
-  name: 'LogIn',
-  methods: {
-    getCurrentUser
-  }
+  name: 'LogIn'
 }
-
 
 
 </script>

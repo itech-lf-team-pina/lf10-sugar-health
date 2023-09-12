@@ -1,4 +1,3 @@
-
 <script>
 import ActiveChallenges from "./ChallengesSubmenu/ActiveChallenges.vue";
 import WriteChallenge from "./ChallengesSubmenu/WriteChallenge.vue";
@@ -9,17 +8,16 @@ import ProfileFrames from "./ChallengesSubmenu/ProfileFrames.vue";
 
 export default {
   name: 'ChallengesAll',
-  props: {
-    msg: String
-  },
   data() {
     return {
-      hiddenAvatar: true,
-      hiddenBanner: true,
-      hiddenChallenge: true,
-      hiddenFrames: true,
-      hiddenSticker: true,
-      hiddenWriteChallenge: true
+      sectionToggles: {
+        Avatar: false,
+        Banner: false,
+        Challenges: false,
+        Frames: false,
+        Sticker: false,
+        Challenge: false
+      }
     };
   },
   components: {
@@ -28,7 +26,15 @@ export default {
     BannerMenu: BannerMenu,
     ProfileFrames: ProfileFrames,
     StickerMenu: StickerMenu,
-    WriteChallenge: WriteChallenge    
+    WriteChallenge: WriteChallenge
+  },
+  methods: {
+    setCurrentSection(sectionToggle) {
+      for (const section in this.sectionToggles) {
+        this.sectionToggles[section] = false;
+      }
+      this.sectionToggles[sectionToggle] = true
+    }
   }
 }
 </script>
@@ -39,19 +45,14 @@ export default {
   <p>
     This page shows all your challenges. The ones completed as well as the ones in progress.
   </p>
-
-
-
   <div class="mainDiv">
-
     <div>
-      <button @click="hiddenChallenge = !hiddenChallenge"><i class="fa-solid fa-heart"></i></button>
+      <button @click="setCurrentSection('Challenges')"><i class="fa-solid fa-heart"></i></button>
       <p>Active Challenges</p>
-
     </div>
 
     <div>
-      <button @click="hiddenWriteChallenge = !hiddenWriteChallenge"><i class="fa-solid fa-pen-nib"></i></button>
+      <button @click="setCurrentSection('Challenge')"><i class="fa-solid fa-pen-nib"></i></button>
       <p>Write your own challenge</p>
     </div>
 
@@ -62,33 +63,32 @@ export default {
  -->
 
     <div>
-      <button @click="hiddenSticker = !hiddenSticker"><i class="fa-solid fa-folder"></i></button>
+      <button @click="setCurrentSection('Sticker')"><i class="fa-solid fa-folder"></i></button>
       <p>Your stickers</p>
     </div>
 
     <div>
-      <button @click="hiddenAvatar = !hiddenAvatar"><i class="fa-solid fa-star"></i></button>
+      <button @click="setCurrentSection('Avatar')"><i class="fa-solid fa-star"></i></button>
       <p>Your avatar</p>
     </div>
 
     <div>
-      <button @click="hiddenFrames = !hiddenFrames"><i class="fa-solid fa-brush"></i></button>
-      <p>Your profileframes</p>
+      <button @click="setCurrentSection('Frames')"><i class="fa-solid fa-brush"></i></button>
+      <p>Your profile frames</p>
     </div>
 
     <div>
-      <button @click="hiddenBanner = !hiddenBanner"><i class="fa-solid fa-panorama"></i></button>
+      <button @click="setCurrentSection('Banner')"><i class="fa-solid fa-panorama"></i></button>
       <p>Your banner</p>
     </div>
-
   </div>
 
-  <ActiveChallenges v-if="!hiddenChallenge"></ActiveChallenges>
-  <AvatarMenu v-if="!hiddenAvatar"></AvatarMenu>
-  <BannerMenu v-if="!hiddenBanner"></BannerMenu>
-  <ProfileFrames v-if="!hiddenFrames"></ProfileFrames>
-  <WriteChallenge v-if="!hiddenWriteChallenge"></WriteChallenge>
-  <StickerMenu v-if="!hiddenSticker"></StickerMenu>
+  <ActiveChallenges v-if="sectionToggles.Challenges"></ActiveChallenges>
+  <AvatarMenu v-if="sectionToggles.Avatar"></AvatarMenu>
+  <BannerMenu v-if="sectionToggles.Banner"></BannerMenu>
+  <ProfileFrames v-if="sectionToggles.Frames"></ProfileFrames>
+  <WriteChallenge v-if="sectionToggles.Challenge"></WriteChallenge>
+  <StickerMenu v-if="sectionToggles.Sticker"></StickerMenu>
 </template>
 
 <style>

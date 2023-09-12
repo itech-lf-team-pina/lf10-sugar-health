@@ -8,6 +8,5 @@ export default {
     
         <h1>Your frames</h1>
         <p>These are your frames:</p>
-
     
 </template>

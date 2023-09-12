@@ -1,17 +1,26 @@
 <script>
 import SidebarLink from './SidebarLink'
 import { collapsed, toggleSidebar, sidebarWidth } from './state'
-import { useCurrentUser } from 'vuefire'
-
+import { useCurrentUser, useFirebaseAuth } from 'vuefire'
+import { signOut } from 'firebase/auth'
 
 export default {
-  props: {},
-  data() {return {
-    signedIn : useCurrentUser()
-  }},
+  data() {
+    return {
+      signedIn: useCurrentUser(),
+      auth: useFirebaseAuth()
+    }
+  },
   components: { SidebarLink },
   setup() {
     return { collapsed, toggleSidebar, sidebarWidth }
+  },
+  methods: {
+
+    signingOut() {
+      signOut(this.auth)
+      window.location.reload()
+    }
   }
 }
 </script>
@@ -32,25 +41,16 @@ export default {
     <SidebarLink v-if="signedIn" to="/sugarhistory" icon="fa-solid fa-clock-rotate-left">Sugar History</SidebarLink>
     <SidebarLink v-if="signedIn" to="/challenges" icon="fa-solid fa-dumbbell">Challenges</SidebarLink>
 
-    <SidebarLink v-if="signedIn" to="/settings" icon="fa-solid fa-gear">Setting</SidebarLink>
+    <SidebarLink v-if="signedIn" to="/settings" icon="fa-solid fa-gear">Settings</SidebarLink>
     <SidebarLink v-if="signedIn" to="/goPremium" icon="fa-solid fa-arrow-up">Go Premium</SidebarLink>
     <SidebarLink to="/aboutus" icon="fa-regular fa-address-card">About Us</SidebarLink>
 
-
-
     <div>
       <span class="collapse-icon" :class="{ 'rotate-180': collapsed }" @click="toggleSidebar">
-
         <i class="fas fa-angle-double-left"></i>
       </span>
-
-      <a href="/">
-        <button> Sign Out </button>
-      </a>
-      
+      <button v-if="signedIn" @click="signingOut"> Sign Out </button>
     </div>
-
-
   </div>
 </template>
 
@@ -63,7 +63,6 @@ export default {
 </style>
 
 <style scoped>
-
 .sidebar {
   color: white;
   background-color: var(--sidebar-bg-color);

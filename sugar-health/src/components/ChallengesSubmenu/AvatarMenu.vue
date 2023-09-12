@@ -9,5 +9,4 @@ export default {
         <h1>Your avatar</h1>
         <p>These are your avatars:</p>
 
-    
 </template>

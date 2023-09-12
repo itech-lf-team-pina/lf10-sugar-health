@@ -8,6 +8,5 @@ export default {
     
         <h1>Stickermenu</h1>
         <p>These are your stickers:</p>
-
     
 </template>

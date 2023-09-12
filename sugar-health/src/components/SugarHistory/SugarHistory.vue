@@ -5,7 +5,7 @@
   </p>
   <div class="chart">
     <h2>Your last 7 days of sugar</h2>
-    <Bar v-if="loaded" :options="chartOptions" :data="chartData"/>
+    <Bar v-if="loaded" :options="chartOptions" :data="chartData" />
   </div>
 
   <h2>Your sugar history</h2>
@@ -16,25 +16,20 @@
     </div>
 
   </div>
-
-
-</template>
+</template> 
 
 
 <script>
-import {BACKEND_URL} from "../baseUrl"
-import {dateArrayToDateString, dateArrayToDateTime} from "@/common/utils";
+import { BACKEND_URL } from "../baseUrl"
+import { dateArrayToDateString, dateArrayToDateTime } from "@/common/utils";
 import moment from "moment";
-import {Bar} from "vue-chartjs";
-import {Chart as ChartJS, Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale} from 'chart.js'
+import { Bar } from "vue-chartjs";
+import { Chart as ChartJS, Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale } from 'chart.js'
 
 ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale)
 
 export default {
   name: 'sugarHistory',
-  props: {
-    msg: String
-  },
   data() {
     return {
       sugarHistoryData: [],
@@ -45,10 +40,8 @@ export default {
         scales: {
           y: {
             beginAtZero: false,
-
           }
         }
-
       }
     }
   },
@@ -114,7 +107,6 @@ export default {
 </script>
 
 <style scoped>
-
 .history-card {
   margin: 1rem;
   padding: 1rem;
