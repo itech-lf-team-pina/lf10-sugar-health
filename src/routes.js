@@ -5,6 +5,7 @@ import Settings from './components/UserSettings'
 import SugarHistory from './components/SugarHistory/SugarHistory.vue'
 import ChallengesAll from './components/ChallengesAll.vue'
 import GoPremium from './components/GoPremium.vue'
+import AllProfiles from './components/AllProfiles.vue'
 
 const routes = [
     {path : '/sugarIntake', component : EnterData},
@@ -13,7 +14,8 @@ const routes = [
     {path : '/settings', component : Settings},
     {path : '/sugarhistory', component : SugarHistory},
     {path : '/challenges', component : ChallengesAll},
-    {path : '/gopremium', component : GoPremium}
+    {path : '/gopremium', component : GoPremium},
+    {path : '/profiles', component : AllProfiles}
 ] 
 
 export default routes
