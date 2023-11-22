@@ -19,13 +19,6 @@ jobs:
         with:
           submodules: true
           lfs: false
-      - name: Set User Configurations
-        run: |
-            git config --global user.name "Adrian"
-            git config --global user.email "adrian@reiqu.de"
-            chmod -R 777 .  # Change permissions as necessary
-      - name: Disable  CI
-        run: echo  "CI=false" >> $GITHUB_ENV
       #- name: Copy config in output directory
       #  run: ls
       #- name: Copy config in output directory
