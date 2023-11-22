@@ -9,7 +9,8 @@ export default {
       sugarContent: '',
       productConsumed: '',
       sugarConsumed: '',
-      description: ''
+      description: '',
+      useBarcodeScanner: false
     };
   },
   components: {
@@ -19,13 +20,17 @@ export default {
     calculateSugarIntake() {
       this.sugarConsumed = (this.productConsumed / 100 * this.sugarContent).toFixed(2)
     },
+    toggleBarcodeScanner() {
+      this.useBarcodeScanner = !this.useBarcodeScanner;
+    },
     sendFormData() {
       // Send the data to the server
       this.sendDataToServer();
     },
     async onDecode(result) {
       console.log(result)
-      console.log("onDecode")
+      document.getElementById("barcode-scanner-audio").play();
+
 
       try {
         const response = await fetch(`${BACKEND_URL}/barcode/${result}`, {
@@ -38,6 +43,12 @@ export default {
         if (response.ok) {
           const data = await response.json(); // Read the response as JSON
           console.log("the data message: ", data);
+          if (data.name !== undefined) {
+            this.productConsumed = data.quantity;
+            this.sugarContent = data.sugar;
+            this.description = data.name;
+            this.calculateSugarIntake();
+          }
         } else {
           // Handle error
           console.error("Error sending data to the server.");
@@ -88,21 +99,33 @@ export default {
   <div class="wrapper">
     <div> Please enter you sugar intake for today. </div>
 
-    <StreamBarcodeReader @decode="onDecode"></StreamBarcodeReader>
+    <div class="scanbox-container">
+      <div class="container-md form-switch">
+        <input class="form-check-input" type="checkbox" role="switch" id="barcode-scanner-switch" @click="toggleBarcodeScanner">
+        <label class="form-check-label" for="barcode-scanner-switch">Checked switch checkbox input</label>
+      </div>
+
+      <div class="container">
+        <StreamBarcodeReader v-if="useBarcodeScanner" @decode="onDecode"></StreamBarcodeReader>
+      </div>
+      <audio id="barcode-scanner-audio">
+        <source src="beep.mp3" type="audio/mpeg">
+      </audio>
+    </div>
 
     <form @submit.prevent="sendFormData" method="POST">
       <!-- Text Input -->
       <label for="productDescription">Product Description</label>
       <input v-model="description" type="text" id="productDescription" name="productDescription" required><br>
 
-      <label for="sugarContent">Sugar Content in 100 gr of product</label>
+      <label for="sugarContent">Sugar Content in 100 gr/ml of product</label>
       <input v-model="sugarContent" type="text" id="sugarContent" name="sugarContent" @input="calculateSugarIntake"><br>
 
-      <label for="productConsumed">Consumed product in gr</label>
+      <label for="productConsumed">Consumed product in gr/ml</label>
       <input v-model="productConsumed" type="text" id="productConsumed" name="productConsumed"
         @input="calculateSugarIntake"><br>
 
-      <label for="last_name">Sugar consumed in gr</label>
+      <label for="last_name">Sugar consumed in gr/ml</label>
       <input type="text" id="sugarConsumed" v-model="sugarConsumed"><br>
 
       <input type="submit" value="Add">
@@ -141,8 +164,6 @@ input[type=submit]:hover {
   background-color: #45a049;
 }
 
-
-
 .wrapper {
   width: 75%;
   margin: auto;
@@ -150,6 +171,21 @@ input[type=submit]:hover {
   border-radius: 10px;
   border-color: #45a049;
 
+}
+.scanbox-container {
+  padding: 20px;
+  margin: 2vh 2vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+video {
+  width: 50% !important;
+  border-radius: 32px;
+}
+
+.laser, .overlay-element {
+  display: none;
 }
 </style>
 
