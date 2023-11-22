@@ -1,5 +1,6 @@
 <script>
 import { BACKEND_URL } from "./baseUrl"
+import { StreamBarcodeReader } from "vue-barcode-reader";
 
 export default {
   name: 'EnterData',
@@ -11,6 +12,9 @@ export default {
       description: ''
     };
   },
+  components: {
+    StreamBarcodeReader
+  },
   methods: {
     calculateSugarIntake() {
       this.sugarConsumed = (this.productConsumed / 100 * this.sugarContent).toFixed(2)
@@ -18,6 +22,30 @@ export default {
     sendFormData() {
       // Send the data to the server
       this.sendDataToServer();
+    },
+    async onDecode(result) {
+      console.log(result)
+      console.log("onDecode")
+
+      try {
+        const response = await fetch(`${BACKEND_URL}/barcode/${result}`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          }
+        });
+
+        if (response.ok) {
+          const data = await response.json(); // Read the response as JSON
+          console.log("the data message: ", data);
+        } else {
+          // Handle error
+          console.error("Error sending data to the server.");
+        }
+      } catch (error) {
+        console.error("An error occurred:", error);
+      }
+
     },
     async sendDataToServer() {
       console.log(this.description)
@@ -59,6 +87,8 @@ export default {
 
   <div class="wrapper">
     <div> Please enter you sugar intake for today. </div>
+
+    <StreamBarcodeReader @decode="onDecode"></StreamBarcodeReader>
 
     <form @submit.prevent="sendFormData" method="POST">
       <!-- Text Input -->
