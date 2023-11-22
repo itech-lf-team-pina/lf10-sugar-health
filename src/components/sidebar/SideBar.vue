@@ -40,6 +40,8 @@ export default {
     <SidebarLink v-if="signedIn" to="/sugarIntake" icon="fa-solid fa-check-double">Enter data</SidebarLink>
     <SidebarLink v-if="signedIn" to="/sugarhistory" icon="fa-solid fa-clock-rotate-left">Sugar History</SidebarLink>
     <SidebarLink v-if="signedIn" to="/challenges" icon="fa-solid fa-dumbbell">Challenges</SidebarLink>
+    <SidebarLink v-if="signedIn" to="/profiles" icon="fa-solid fa-dumbbell">Profiles</SidebarLink>
+
 
     <SidebarLink v-if="signedIn" to="/settings" icon="fa-solid fa-gear">Settings</SidebarLink>
     <SidebarLink v-if="signedIn" to="/goPremium" icon="fa-solid fa-arrow-up">Go Premium</SidebarLink>
