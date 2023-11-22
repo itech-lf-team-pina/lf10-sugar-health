@@ -112,11 +112,11 @@ export default {
   padding: 1rem;
   border: 1px solid #eee;
   border-radius: 16px;
-  box-shadow: rgba(81, 177, 91, 0.6) 0px 0px 4px;
+  box-shadow: rgba(81, 177, 91, 0.6) 0 0 4px;
 }
 
 .history-card:hover {
-  box-shadow: rgba(81, 177, 91, 0.6) 0px 0px 8px;
+  box-shadow: rgba(81, 177, 91, 0.6) 0 0 8px;
 }
 
 .history-card p {
