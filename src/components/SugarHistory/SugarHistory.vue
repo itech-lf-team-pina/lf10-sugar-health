@@ -99,9 +99,9 @@ export default {
     Bar
   },
   mounted() {
-    const memberID = localStorage.getItem("memberId");
-    this.getSugarDataFromServer(`${BACKEND_URL}/member/${memberID}/sugar`, "history");
-    this.getSugarDataFromServer(`${BACKEND_URL}/sugar/${memberID}/stats/LAST_7_DAYS`, "chart");
+    const accountID = localStorage.getItem("accountId");
+    this.getSugarDataFromServer(`${BACKEND_URL}/account/${accountID}/sugar`, "history");
+    this.getSugarDataFromServer(`${BACKEND_URL}/sugar/${accountID}/stats/LAST_7_DAYS`, "chart");
   }
 }
 </script>
