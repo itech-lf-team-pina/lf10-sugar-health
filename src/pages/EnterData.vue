@@ -1,5 +1,5 @@
 <script>
-import { BACKEND_URL } from "./baseUrl"
+import { BACKEND_URL } from "@/common/constants"
 import { StreamBarcodeReader } from "vue-barcode-reader";
 
 export default {

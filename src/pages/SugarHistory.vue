@@ -20,7 +20,7 @@
 
 
 <script>
-import { BACKEND_URL } from "../baseUrl"
+import { BACKEND_URL } from "@/common/constants"
 import { dateArrayToDateString, dateArrayToDateTime } from "@/common/utils";
 import moment from "moment";
 import { Bar } from "vue-chartjs";
