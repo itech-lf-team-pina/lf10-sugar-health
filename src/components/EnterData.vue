@@ -60,7 +60,7 @@ export default {
     },
     async sendDataToServer() {
       console.log(this.description)
-      console.log("From local Storage: " + localStorage.getItem("memberId"))
+      console.log("From local Storage: " + localStorage.getItem("accountId"))
       try {
         const response = await fetch(`${BACKEND_URL}/sugar/`, {
           method: "POST",
@@ -71,7 +71,7 @@ export default {
           body: JSON.stringify({
             intake: this.sugarConsumed,
             description: this.description,
-            memberID: localStorage.getItem("memberId")
+            accountID: localStorage.getItem("accountId")
           }),
         });
 

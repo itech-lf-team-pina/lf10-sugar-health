@@ -24,7 +24,7 @@ function signinRedirect() {
     console.log("Sign in with popup returns UserCredentials: ", data)
 
     try {
-      const response = await fetch(`${BACKEND_URL}/member/`, {
+      const response = await fetch(`${BACKEND_URL}/account/`, {
         method: "GET",
         headers: {
         },
@@ -32,10 +32,10 @@ function signinRedirect() {
 
       if (response.ok) {
         const resp = await response.json(); // Read the response as JSON
-        console.log("Members: ", resp);
+        console.log("Accounts: ", resp);
 
       } else {
-        console.error("Error getting members.");
+        console.error("Error getting accounts.");
       }
     } catch (error) {
       console.error("An error occurred:", error);
@@ -44,7 +44,7 @@ function signinRedirect() {
     // To make a new User
     try {
       console.log("sending post request...", data.user.displayName, data.user.uid)
-      const response = await fetch(`${BACKEND_URL}/member/`, {
+      const response = await fetch(`${BACKEND_URL}/account/`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -61,14 +61,14 @@ function signinRedirect() {
       if (response.ok) {
         const data = await response.json(); // Read the response as JSON
         localStorage.setItem("displayName", JSON.stringify(data.displayName));
-        localStorage.setItem("memberId", data.id);
+        localStorage.setItem("accountId", data.id);
 
-        console.log("Member created successfully! ", data.displayName);
+        console.log("Account created successfully! ", data.displayName);
         console.log(data.id);
         console.log(data.login_uid);
       } else {
         // Handle error
-        console.error("Error while addind a member.");
+        console.error("Error while addind a account.");
       }
     } catch (error) {
       console.error("An error occurred:", error);
@@ -123,6 +123,7 @@ export default {
 
   <div>
     <main>
+      <button v-if="!signedIn" @click="signinRedirect">SignIn with Google</button>
       <button v-if="!signedIn" @click="signinRedirect">SignIn with Google</button>
       <button v-else @click="signingOut">Sign Out</button>
     </main>

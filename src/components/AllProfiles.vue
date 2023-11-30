@@ -7,7 +7,7 @@ export default {
     return {
       name: '',
       image: '',
-      memberID: ''    };
+      accountID: ''    };
   },
   components: {
     
@@ -19,7 +19,7 @@ export default {
     },
     async sendDataToServer() {
       console.log(this.description)
-      console.log("From local Storage: " + localStorage.getItem("memberId"))
+      console.log("From local Storage: " + localStorage.getItem("accountId"))
       try {
         const response = await fetch(`${BACKEND_URL}/profile/`, {
           method: "POST",
@@ -30,7 +30,7 @@ export default {
           body: JSON.stringify({
             name: this.name,
             imageUrl: "https://bit.ly/3QIblUE",
-            memberID: localStorage.getItem("memberId")
+            accountID: localStorage.getItem("accountId")
           }),
         });
 
