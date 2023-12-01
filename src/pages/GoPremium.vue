@@ -72,7 +72,7 @@ export default {
         <tr class="noBorder">
             <td></td>
             <td></td>
-            <td><button type="button">Go Premium</button></td>
+            <td><button type="button" onclick="window.open('https://www.youtube.com/watch?v=dQw4w9WgXcQ')">Go Premium</button></td>
         </tr>
     </table>
 </template>

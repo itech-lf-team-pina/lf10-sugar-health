@@ -20,7 +20,7 @@ export default {
         name: state.accountName
       }
     },
-    profile: state => {
+    currentProfile: state => {
       return {
         id: state.profileId,
         name: state.profileName
@@ -72,20 +72,36 @@ export default {
         });
 
         if (response.ok) {
-          const data = await response.json(); // Read the response as JSON
-          console.log("the data message: ", data);
           toast.success("Created new profile")
           this.getCurrentProfiles();
         } else {
           // Handle error
-          console.error("Error sending data to the server.");
-          console.log(response);
           if (response.status === 409) {
             toast.warning("You have exceeded your maximum amount of profiles")
           }
         }
       } catch (error) {
         console.error("An error occurred:", error);
+      }
+    },
+    async deleteProfile (profileId) {
+      try {
+        const response = await fetch(`${BACKEND_URL}/profile/${profileId}`, {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+          }
+        });
+
+        if (response.ok) {
+          toast.success("profile deleted")
+          this.getCurrentProfiles();
+        } else {
+          // Handle error
+            toast.warning("An errer occured while deleting profile")
+        }
+      } catch (error) {
+        toast.warning("An errer occured while deleting profile")
       }
     }
   },
@@ -102,6 +118,10 @@ export default {
   <div class="wrapper">
     <div> Choose between your current profiles.</div>
 
+    <div>
+      <h3>Current profile: {{ currentProfile.name }}</h3>
+    </div>
+
     <div class="profileContainer">
       <div
           v-for="profile in profiles"
@@ -109,9 +129,14 @@ export default {
         {{ profile.name }}
         <br>
         <button
-            :disabled="false"
+            :disabled="profile.id === currentProfile.id"
             @click='switchToProfile(profile.id, profile.name)'>
           Select
+        </button>
+        <button
+            :disabled="profile.primaryProfile || currentProfile.id === profile.id"
+            @click='deleteProfile(profile.id)'>
+          Delete
         </button>
       </div>
     </div>
@@ -156,6 +181,17 @@ input[type=submit] {
   border: none;
   border-radius: 4px;
   cursor: pointer;
+}
+button {
+  padding: 8px;
+  margin: 4px;
+}
+button:disabled {
+  background-color: #757d75 !important;
+  color: white;
+}
+button:disabled:hover {
+  background-color: #97a497;
 }
 
 input[type=submit]:hover {

@@ -8,7 +8,7 @@ const initialState = {
     accountId: "",
     accountName: "",
     profileId: "",
-    profileName: ""
+    profileName: "",
 }
 
 export const store = createStore({

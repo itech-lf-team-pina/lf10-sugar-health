@@ -42,8 +42,10 @@ async function createLoggedInUser(data) {
       store.commit('setAccountName', JSON.stringify(data.account.displayName))
       store.commit('setProfileName', JSON.stringify(data.profile.name))
 
+      console.log(data);
       store.commit('setAccountId', data.account.id)
       store.commit('setProfilId', data.profile.id)
+      store.commit('setProfilePrimary', data.profile.primary_profile)
 
     } else {
       // Handle error
