@@ -8,7 +8,8 @@ import {
 import { GoogleAuthProvider, FacebookAuthProvider } from 'firebase/auth'
 import { useCurrentUser, useFirebaseAuth, getCurrentUser } from 'vuefire'
 import { ref, onMounted } from "vue"
-import { BACKEND_URL } from "./baseUrl"
+import { BACKEND_URL } from "@/common/constants"
+import {store} from "@/store/store";
 
 
 let signedIn = useCurrentUser()
@@ -30,19 +31,22 @@ async function createLoggedInUser(data) {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        displayName: data.user.displayName,
-        login_uid: data.user.uid
+        name: data.user.displayName,
+        uid: data.user.uid,
+        image: data.user.photoURL
       }),
     });
 
     if (response.ok) {
       const data = await response.json();
-      localStorage.setItem("displayName", JSON.stringify(data.displayName));
-      localStorage.setItem("accountId", data.id);
+      store.commit('setAccountName', JSON.stringify(data.account.displayName))
+      store.commit('setProfileName', JSON.stringify(data.profile.name))
 
-      console.log("Account created successfully! ", data.displayName);
-      console.log(data.id);
-      console.log(data.login_uid);
+      console.log(data);
+      store.commit('setAccountId', data.account.id)
+      store.commit('setProfilId', data.profile.id)
+      store.commit('setProfilePrimary', data.profile.primary_profile)
+
     } else {
       // Handle error
       console.error("Error while addind a account.");
@@ -54,7 +58,6 @@ async function createLoggedInUser(data) {
 function signInWithGoogle() {
   signInWithPopup(auth, googleAuthProvider).then(async (data) => {
     console.log("Sign in (Google) with popup returns UserCredentials: ", data)
-    // To make a new User
     await createLoggedInUser(data)
   })
     .catch((reason) => {
@@ -66,7 +69,6 @@ function signInWithGoogle() {
 function signInWithFacebook() {
   signInWithPopup(auth, facebookAuthProvider).then(async (data) => {
     console.log("Sign in (Facebook) with popup returns UserCredentials: ", data)
-    // To make a new User
     await createLoggedInUser(data)
   })
       .catch((reason) => {
@@ -88,13 +90,6 @@ onMounted(() => {
 
   // this methods returns Promise<User>, can access its properties directly
   getCurrentUser().then((data) => {
-
-    if (data) {
-
-      console.log(data.displayName)
-      console.log(data.uid)
-
-    }
     return (data)
   })
 })
@@ -103,8 +98,25 @@ onMounted(() => {
 
 <script> 
 
+import {mapState} from "vuex";
+
 export default {
-  name: 'LogIn'
+  name: 'LogIn',
+  computed: mapState({
+    account: state => {
+      return {
+        id: state.accountId,
+        name: state.accountName
+      }
+    },
+    profile: state => {
+      return {
+        id: state.profileId,
+        name: state.profileName
+      }
+    }
+  }),
+
 }
 
 
@@ -113,7 +125,7 @@ export default {
 <template>
   <h1>Sign In Page</h1>
   <p v-if="!signedIn"> Please Sign In to use the service. Thank you.</p>
-  <p v-else> Welcome, {{ useCurrentUser().value.displayName }}</p>
+  <p v-else> Currently logged in as {{ account.name }} with profile {{ profile.name }} </p>
 
   <div>
     <main>

@@ -39,10 +39,10 @@ export default {
     <SidebarLink to="/" icon="fa-solid fa-arrow-right-to-bracket">Sign In/Out</SidebarLink>
     <SidebarLink v-if="signedIn" to="/sugarIntake" icon="fa-solid fa-check-double">Enter data</SidebarLink>
     <SidebarLink v-if="signedIn" to="/sugarhistory" icon="fa-solid fa-clock-rotate-left">Sugar History</SidebarLink>
-    <SidebarLink v-if="signedIn" to="/profiles" icon="fa-regular fa-user">New Profile</SidebarLink>
-    <SidebarLink v-if="signedIn" to="/profileSettings" icon="fa-regular fa-id-card">Profile Settings</SidebarLink>
+    <SidebarLink v-if="signedIn" to="/choose-profile" icon="fa-regular fa-user">Profile Chooser</SidebarLink>
+    <SidebarLink v-if="signedIn" to="/profiles" icon="fa-regular fa-id-card">Profile</SidebarLink>
 
-    <SidebarLink v-if="signedIn" to="/settings" icon="fa-solid fa-gear">Settings</SidebarLink>
+   <!-- <SidebarLink v-if="signedIn" to="/settings" icon="fa-solid fa-gear">Settings</SidebarLink>-->
     <SidebarLink v-if="signedIn" to="/goPremium" icon="fa-solid fa-arrow-up">Go Premium</SidebarLink>
     <SidebarLink to="/aboutus" icon="fa-regular fa-address-card">About Us</SidebarLink>
 

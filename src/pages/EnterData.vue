@@ -1,6 +1,9 @@
 <script>
-import { BACKEND_URL } from "./baseUrl"
+import { BACKEND_URL } from "@/common/constants"
 import { StreamBarcodeReader } from "vue-barcode-reader";
+import {store} from "@/store/store";
+import { useToast } from "vue-toastification";
+import {mapState} from "vuex";
 
 export default {
   name: 'EnterData',
@@ -10,7 +13,8 @@ export default {
       productConsumed: '',
       sugarConsumed: '',
       description: '',
-      useBarcodeScanner: false
+      useBarcodeScanner: false,
+      profileId: ''
     };
   },
   components: {
@@ -59,8 +63,8 @@ export default {
 
     },
     async sendDataToServer() {
-      console.log(this.description)
-      console.log("From local Storage: " + localStorage.getItem("accountId"))
+      const toast = useToast();
+
       try {
         const response = await fetch(`${BACKEND_URL}/sugar/`, {
           method: "POST",
@@ -71,22 +75,43 @@ export default {
           body: JSON.stringify({
             intake: this.sugarConsumed,
             description: this.description,
-            accountID: localStorage.getItem("accountId")
+            profileId: store.state.profileId
           }),
         });
 
         if (response.ok) {
           const data = await response.json(); // Read the response as JSON
           console.log("the data message: " + data.intake);
+          toast.success('Data saved successfully')
         } else {
           // Handle error
           console.error("Error sending data to the server.");
+          toast.error('Error while sending data to server');
         }
       } catch (error) {
         console.error("An error occurred:", error);
+        toast.error('Error while sending data to server');
       }
     }
-  }
+  },
+  mounted() {
+    this.profileId = store.state.profileId;
+    this.profileId = this.profile.id;
+  },
+  computed: mapState({
+    account: state => {
+      return {
+        id: state.accountId,
+        name: state.accountName
+      }
+    },
+    profile: state => {
+      return {
+        id: state.profileId,
+        name: state.profileName
+      }
+    }
+  })
 }
 
 </script>

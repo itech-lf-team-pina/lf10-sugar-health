@@ -1,16 +1,15 @@
-import App from './App.vue'
+import App from './pages/App.vue'
 import { createApp } from 'vue'
 import '@fortawesome/fontawesome-free/js/all'
-
-
 import { createRouter, createWebHistory} from 'vue-router'
-
 import { VueFire, VueFireAuth } from 'vuefire'
-// the file we created above with `database`, `firestore` and other exports
-import { firebaseApp } from './components/firebase'
+import { firebaseApp } from './common/firebase'
+import Toast from "vue-toastification";
+import "vue-toastification/dist/index.css";
 
 
-import routes from './routes'
+import routes from './common/routes'
+import {store} from "@/store/store";
 
 const router = createRouter({
     history: createWebHistory(),
@@ -19,6 +18,8 @@ const router = createRouter({
 
 const app = createApp(App)
 app.use(router)
+app.use(store)
+app.use(Toast, {});
 
 app.use(VueFire, {
     // imported above but could also just be created here

@@ -20,11 +20,12 @@
 
 
 <script>
-import { BACKEND_URL } from "../baseUrl"
+import { BACKEND_URL } from "@/common/constants"
 import { dateArrayToDateString, dateArrayToDateTime } from "@/common/utils";
 import moment from "moment";
 import { Bar } from "vue-chartjs";
 import { Chart as ChartJS, Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale } from 'chart.js'
+import {store} from "@/store/store";
 
 ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale)
 
@@ -99,9 +100,9 @@ export default {
     Bar
   },
   mounted() {
-    const accountID = localStorage.getItem("accountId");
-    this.getSugarDataFromServer(`${BACKEND_URL}/account/${accountID}/sugar`, "history");
-    this.getSugarDataFromServer(`${BACKEND_URL}/sugar/${accountID}/stats/LAST_7_DAYS`, "chart");
+    const profileId = store.state.profileId
+    this.getSugarDataFromServer(`${BACKEND_URL}/account/${profileId}/sugar`, "history");
+    this.getSugarDataFromServer(`${BACKEND_URL}/sugar/${profileId}/stats/LAST_7_DAYS`, "chart");
   }
 }
 </script>
