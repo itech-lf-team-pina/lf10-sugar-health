@@ -1,5 +1,9 @@
 import {createStore} from "vuex";
+import VuexPersistence from 'vuex-persist'
 
+const vuexLocal = new VuexPersistence({
+    storage: window.localStorage
+})
 const initialState = {
     accountId: "",
     accountName: "",
@@ -24,5 +28,6 @@ export const store = createStore({
         setProfilId (state, id) {
             state.profileId = id;
         }
-    }
+    },
+    plugins: [vuexLocal.plugin]
 })

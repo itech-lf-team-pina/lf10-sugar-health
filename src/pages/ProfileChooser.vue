@@ -1,38 +1,9 @@
-<script setup>
-import {BACKEND_URL} from "@/common/constants";
-import {store} from "@/store/store";
-
-const createNewProfile = async () => {
-  try {
-    const response = await fetch(`${BACKEND_URL}/profile/`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-
-      body: JSON.stringify({
-        name: this.name,
-        imageUrl: "https://bit.ly/3QIblUE",
-        accountID: store.state.accountId
-      }),
-    });
-
-    if (response.ok) {
-      const data = await response.json(); // Read the response as JSON
-      console.log("the data message: " + data.intake);
-    } else {
-      // Handle error
-      console.error("Error sending data to the server.");
-    }
-  } catch (error) {
-    console.error("An error occurred:", error);
-  }
-}
-
-</script>
-
 <script>
 import {mapState} from "vuex";
+import {useToast} from "vue-toastification";
+import {BACKEND_URL} from "@/common/constants";
+import {store} from "@/store/store";
+const toast = useToast();
 
 export default {
   name: 'ProfileChooser',
@@ -77,6 +48,45 @@ export default {
       } catch (error) {
         console.error("An error occurred:", error);
       }
+    },
+
+    async switchToProfile(profileId, name) {
+      store.commit("setProfilId", profileId);
+      store.commit("setProfileName", name);
+
+      toast.success("Switched to " + name);
+    },
+    async createNewProfile () {
+      try {
+        const response = await fetch(`${BACKEND_URL}/profile/`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+
+          body: JSON.stringify({
+            name: this.name,
+            imageUrl: "https://bit.ly/3QIblUE",
+            accountID: store.state.accountId
+          }),
+        });
+
+        if (response.ok) {
+          const data = await response.json(); // Read the response as JSON
+          console.log("the data message: ", data);
+          toast.success("Created new profile")
+          this.getCurrentProfiles();
+        } else {
+          // Handle error
+          console.error("Error sending data to the server.");
+          console.log(response);
+          if (response.status === 409) {
+            toast.warning("You have exceeded your maximum amount of profiles")
+          }
+        }
+      } catch (error) {
+        console.error("An error occurred:", error);
+      }
     }
   },
   mounted() {
@@ -100,7 +110,7 @@ export default {
         <br>
         <button
             :disabled="false"
-            @click='() => console.log("test")'>
+            @click='switchToProfile(profile.id, profile.name)'>
           Select
         </button>
       </div>
