@@ -1,4 +1,4 @@
-import App from './pages/App.vue'
+import App from './App.vue'
 import { createApp } from 'vue'
 import '@fortawesome/fontawesome-free/js/all'
 import { createRouter, createWebHistory} from 'vue-router'

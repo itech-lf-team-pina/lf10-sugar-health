@@ -1,5 +1,5 @@
 <script>
-import SidebarLink from './SidebarLink'
+import SidebarLink from './SidebarLink.vue'
 import { collapsed, toggleSidebar, sidebarWidth } from './state'
 import { useCurrentUser, useFirebaseAuth } from 'vuefire'
 import { signOut } from 'firebase/auth'

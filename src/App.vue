@@ -7,8 +7,8 @@
 
 <script>
 
-import SideBar from '@/components/sidebar/SideBar'
-import { sidebarWidth } from '@/components/sidebar/state'
+import SideBar from './components/sidebar/SideBar.vue'
+import { sidebarWidth } from './components/sidebar/state'
 
 
 
