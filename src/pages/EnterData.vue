@@ -134,7 +134,7 @@ export default {
         <StreamBarcodeReader v-if="useBarcodeScanner" @decode="onDecode"></StreamBarcodeReader>
       </div>
       <audio id="barcode-scanner-audio">
-        <source src="beep.mp3" type="audio/mpeg">
+        <source src="/beep.mp3" type="audio/mpeg">
       </audio>
     </div>
 

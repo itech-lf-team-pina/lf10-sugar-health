@@ -1,7 +1,7 @@
 <script>
-import PictureMenu from "@/components/ProfileSubmenu/PictureMenu.vue";
-import BannerMenu from "@/components/ProfileSubmenu/BannerMenu.vue";
-import ProfileFrames from "@/components/ProfileSubmenu/ProfileFrames.vue";
+import PictureMenu from "./../components/ProfileSubmenu/PictureMenu.vue";
+import BannerMenu from "./../components/ProfileSubmenu/BannerMenu.vue";
+import ProfileFrames from "./../components/ProfileSubmenu/ProfileFrames.vue";
 import {mapState} from "vuex";
 
 export default {

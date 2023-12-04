@@ -8,8 +8,8 @@ import {
 import { GoogleAuthProvider, FacebookAuthProvider } from 'firebase/auth'
 import { useCurrentUser, useFirebaseAuth, getCurrentUser } from 'vuefire'
 import { ref, onMounted } from "vue"
-import { BACKEND_URL } from "@/common/constants"
-import {store} from "@/store/store";
+import { BACKEND_URL } from "./../common/constants"
+import {store} from "./../store/store";
 
 
 let signedIn = useCurrentUser()
