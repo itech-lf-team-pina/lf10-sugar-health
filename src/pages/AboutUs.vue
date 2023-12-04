@@ -41,19 +41,9 @@ export default {
     </h3>
     <p class="text">
       You don't have to. You can have two profiles per account in our free version and even more in our premium version.
-      Therefore you can keep track of yourself, your partner and you kids.
+      Therefore you can keep track of yourself, your partner and your kids.
       You can also follow your friends and other users and see how well they are doing.
       With friends and family the tracking becomes easier and you can get healty together.
-    </p>
-
-    <h3>
-      What are challenges?
-    </h3>
-    <p class="text">
-      Challenges are there to set you goals. You can choose between global goals that everyone of our users sees.
-      Or you can make your own challenges and choose how much sugar you want to eat and also for how long.
-      To help motivate you and your kids, you get a badge for every challenge you successfully complete,
-      For your own goals, you can even choose which badge you want.
     </p>
   </div>
 </template>
