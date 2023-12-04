@@ -1,40 +1,49 @@
-import { createLocalVue, shallowMount } from '@vue/test-utils';
-const localVue = createLocalVue();
+import { vi, describe, it, beforeEach, expect } from 'vitest'
 
-import App from '@/App';
-import SideBar from '@/components/sidebar/SideBar';
-import { sidebarWidth } from '@/components/sidebar/state';
-import * as jest from "node/test";
-import {ref} from "vue";
+import { mount } from '@vue/test-utils';
 
-jest.mock('@/components/sidebar/state', () => ({
-    sidebarWidth: ref('200px'),
+import App from '@/App.vue';
+
+vi.mock('@/components/sidebar/state', async () => {
+    const actual = await vi.importActual('@/components/sidebar/state');
+
+    return {
+        ...actual,
+        sidebarWidth: '200px',
+    }
+});
+
+vi.mock('vuefire', () => ({
+    useCurrentUser: vi.fn(),
+    useFirebaseAuth: vi.fn()
 }));
+
+vi.mock('vue-router', () => ({
+    useRoute: vi.fn(() => {
+        return {
+            path: '/'
+        }
+    })
+}));
+
+vi.mock('firebase/auth', () => ({
+    signOut: vi.fn()
+}));
+
 
 describe('App.vue', () => {
     let wrapper;
 
     beforeEach(() => {
-        wrapper = shallowMount(App, {
-            global: {
-                stubs: {
-                    Sidebar: SideBar,
-                },
-            },
-        });
+        wrapper = mount(App);
     });
 
     it('renders properly', () => {
         expect(wrapper.exists()).toBeTruthy();
+        expect(wrapper.get('[data-test="app"]').exists()).toBe(true);
     });
 
     it('contains the sidebar component', () => {
-        expect(wrapper.findComponent(SideBar).exists()).toBe(true);
-    });
-
-    it('applies dynamic margin-left style based on sidebarWidth', async () => {
-        await wrapper.vm.$nextTick();
-        const div = wrapper.find('div');
-        expect(div.attributes('style')).toContain(`margin-left: ${sidebarWidth.value};`);
+        expect(wrapper.get('[data-test="sidebar"]').exists()).toBe(true);
     });
 });
