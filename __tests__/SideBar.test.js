@@ -4,7 +4,6 @@ import SideBar from '@/components/sidebar/SideBar.vue';
 import { toggleSidebar } from '@/components/sidebar/state';
 import { signOut } from 'firebase/auth';
 
-// Mock dependencies
 vi.mock('@/components/sidebar/state', () => ({
     collapsed: vi.fn(),
     toggleSidebar: vi.fn(),
@@ -37,10 +36,8 @@ describe('SideBar.vue', () => {
         wrapper = mount(SideBar);
     })
     it('renders the sidebar and shows the correct links based on user status', () => {
-        // Check if the sidebar is rendered
         expect(wrapper.find('.sidebar').exists()).toBe(true);
 
-        // Check if the sidebar links are shown based on the user status
         expect(wrapper.find('[to="/sugarIntake"]').exists()).toBe(true);
         expect(wrapper.find('[to="/sugarhistory"]').exists()).toBe(true);
         expect(wrapper.find('[to="/choose-profile"]').exists()).toBe(true);
