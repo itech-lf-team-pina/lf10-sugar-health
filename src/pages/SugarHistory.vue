@@ -1,21 +1,24 @@
 <template>
-  <h1> Your sugar history </h1>
-  <p>
-    This page has a list showing how much you consumed each day.
-  </p>
-  <div class="chart">
-    <h2>Your last 7 days of sugar</h2>
-    <Bar v-if="loaded" :options="chartOptions" :data="chartData" />
-  </div>
-
-  <h2>Your sugar history</h2>
-  <div v-for="item in sugarHistoryData" v-bind:key="item.id">
-    <div class="history-card">
-      <h3>{{ item.description }} <small>({{ item.timestampDate }})</small></h3>
-      <p>Sugar intake: {{ item.intake }}g</p>
+  <BContainer>
+    <h1> Your sugar history </h1>
+    <p>
+      This page has a list showing how much you consumed each day.
+    </p>
+    <div class="chart">
+      <h2>Your last 7 days of sugar</h2>
+      <Bar v-if="loaded" :options="chartOptions" :data="chartData" />
     </div>
 
-  </div>
+    <br/>
+    <h2>Your sugar history</h2>
+    <div v-for="item in sugarHistoryData" v-bind:key="item.id">
+      <div class="history-card">
+        <h3>{{ item.description }} <small>({{ item.timestampDate }})</small></h3>
+        <p>Sugar intake: {{ item.intake }}g</p>
+      </div>
+
+    </div>
+  </BContainer>
 </template> 
 
 

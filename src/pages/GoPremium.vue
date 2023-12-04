@@ -5,8 +5,10 @@ export default {
 </script>
 
 <template>
+  <BContainer>
     <h1>Premium</h1>
     <p> Here is what you get for premium:</p>
+
 
     <table>
         <tr>
@@ -75,15 +77,14 @@ export default {
             <td><button type="button" onclick="window.open('https://www.youtube.com/watch?v=dQw4w9WgXcQ')">Go Premium</button></td>
         </tr>
     </table>
+  </BContainer>
 </template>
 
-<style>
+<style scoped>
 table {
     font-family: arial, sans-serif;
     border-collapse: collapse;
     width: 75%;
-    margin-left: auto;
-    margin-right: auto;
 }
 
 td,

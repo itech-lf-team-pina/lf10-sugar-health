@@ -3,6 +3,7 @@ import {mapState} from "vuex";
 import {useToast} from "vue-toastification";
 import {BACKEND_URL} from "@/common/constants";
 import {store} from "@/store/store";
+
 const toast = useToast();
 
 export default {
@@ -56,7 +57,7 @@ export default {
 
       toast.success("Switched to " + name);
     },
-    async createNewProfile () {
+    async createNewProfile() {
       try {
         const response = await fetch(`${BACKEND_URL}/profile/`, {
           method: "POST",
@@ -84,9 +85,9 @@ export default {
         console.error("An error occurred:", error);
       }
     },
-    async deleteProfile (profileId) {
+    async wipeProfile(profileId) {
       try {
-        const response = await fetch(`${BACKEND_URL}/profile/${profileId}`, {
+        const response = await fetch(`${BACKEND_URL}/sugar/profile/${profileId}`, {
           method: "DELETE",
           headers: {
             "Content-Type": "application/json",
@@ -94,14 +95,13 @@ export default {
         });
 
         if (response.ok) {
-          toast.success("profile deleted")
-          this.getCurrentProfiles();
+          toast.success("Profile wiped")
         } else {
           // Handle error
-            toast.warning("An errer occured while deleting profile")
+          toast.warning("An error occured while deleting profile")
         }
       } catch (error) {
-        toast.warning("An errer occured while deleting profile")
+        toast.warning("An error occured while deleting profile")
       }
     }
   },
@@ -113,99 +113,65 @@ export default {
 </script>
 
 <template>
-  <h1>Choose a profile</h1>
-
-  <div class="wrapper">
-    <div> Choose between your current profiles.</div>
-
+  <BContainer>
+    <h1>Choose a profile</h1>
     <div>
-      <h3>Current profile: {{ currentProfile.name }}</h3>
+      <strong>Current profile: {{ currentProfile.name }}</strong>
     </div>
 
-    <div class="profileContainer">
-      <div
-          v-for="profile in profiles"
-          :key="profile.id">
-        {{ profile.name }}
-        <br>
-        <button
-            :disabled="profile.id === currentProfile.id"
-            @click='switchToProfile(profile.id, profile.name)'>
-          Select
-        </button>
-        <button
-            :disabled="profile.primaryProfile || currentProfile.id === profile.id"
-            @click='deleteProfile(profile.id)'>
-          Delete
-        </button>
-      </div>
-    </div>
-  </div>
+    <BRow>
+      <BCol class="profile-wrapper" v-for="profile in profiles"
+            :key="profile.id">
+        <BCard>
+          <BContainer>
+            <BAvatar v-if="profile.imageUrl" variant="primary" :src="profile.imageUrl"/>
+            <BAvatar v-else variant="primary"
+                     src="https://st3.depositphotos.com/6672868/13701/v/450/depositphotos_137014128-stock-illustration-user-profile-icon.jpg"/>
+            <p>{{ profile.name }}</p>
+          </BContainer>
 
-  <div class="wrapper">
-    <div> Please enter data for the new profile.</div>
+          <BButtonGroup>
+            <BButton
+                :disabled="profile.id === currentProfile.id"
+                @click='switchToProfile(profile.id, profile.name)'>
+              Select
+            </BButton>
+            <BButton
+                @click='wipeProfile(profile.id)'>
+              Reset
+            </BButton>
+          </BButtonGroup>
+        </BCard>
+      </BCol>
+    </BRow>
+  </BContainer>
+  <br/>
+  <BContainer>
+    <BCard>
+      <div> Please enter data for the new profile.</div>
 
+      <br>
 
-    <form @submit.prevent="createNewProfile" method="POST">
-      <!-- Text Input -->
-      <label for="productDescription">Profile Name</label>
-      <input v-model="name" type="text" id="profileName" name="profileName" required><br>
+      <form @submit.prevent="createNewProfile" method="POST">
+        <label for="productDescription">Profile Name</label>
+        <BFormInput id="productDescription" v-model="name" type="text" placeholder="Enter your name" required/>
+        <br/>
+        <BButton type="submit">
+          Create
+        </BButton>
+        <br/>
 
-      <input type="submit" value="Create">
-      <br/>
-
-    </form>
-
-
-  </div>
+      </form>
+    </BCard>
+  </BContainer>
 </template>
 
 
-<style>
-input[type=text] {
-  width: 10%;
-  padding: 12px 20px;
-  margin: 8px;
-  display: inline-block;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  box-sizing: border-box;
-}
-
-input[type=submit] {
-  width: 40%;
-  background-color: #4CAF50;
-  color: white;
-  padding: 14px 20px;
-  margin: 8px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-button {
-  padding: 8px;
-  margin: 4px;
-}
-button:disabled {
-  background-color: #757d75 !important;
-  color: white;
-}
-button:disabled:hover {
-  background-color: #97a497;
-}
-
-input[type=submit]:hover {
-  background-color: #45a049;
-}
-
-
-.wrapper {
-  width: 75%;
-  margin: auto;
-  border: solid;
-  border-radius: 10px;
-  border-color: #45a049;
-
+<style scoped>
+.profile-picture {
+  height: 48px;
+  border-radius: 32px;
+  border: 1px solid #212121;
 }
 </style>
 
