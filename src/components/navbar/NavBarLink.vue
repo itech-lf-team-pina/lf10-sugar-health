@@ -28,16 +28,6 @@ export default {
 </template>
 
 <style scoped>
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.1s;
-}
-
-.fade-enter,
-.fade-leave-to {
-  opacity: 0;
-}
-
 .link {
   display: flex;
   align-items: center;
@@ -48,20 +38,21 @@ export default {
   user-select: none;
 
   margin: 0.1em 0;
-  padding: 0.4em;
   border-radius: 0.25em;
   height: 1.5em;
 
   color: white;
   text-decoration: none;
+  padding: 16px 12px
 }
 
 .link:hover {
-  background-color: var(--sidebar-item-hover);
+  color: #c0c0c0;
 }
 
-.link.active {
-  background-color: var(--sidebar-item-active);
+div .link.active {
+  color: #fff;
+  text-decoration: underline;
 }
 
 .link .icon {

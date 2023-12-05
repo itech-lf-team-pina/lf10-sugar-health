@@ -1,17 +1,20 @@
 <script setup>
-import { sidebarWidth } from './components/sidebar/state'
+import 'bootstrap/dist/css/bootstrap.css'
+import 'bootstrap-vue-next/dist/bootstrap-vue-next.css'
 
 </script>
 
 <template>
   <Sidebar data-test="sidebar" />
-  <div data-test="app" :style="{ 'margin-left': sidebarWidth }">
-    <router-view />
+  <div data-test="app">
+    <BCard class="box">
+      <router-view />
+    </BCard>
   </div>
 </template>
 
 <script>
-import SideBar from './components/sidebar/SideBar.vue'
+import SideBar from '@/components/navbar/NavBar.vue'
 export default {
   name: 'App',
   components: { Sidebar: SideBar }
@@ -25,6 +28,9 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+  margin: 0;
+}
+.box {
+  margin: 4vh 5vw;
 }
 </style>

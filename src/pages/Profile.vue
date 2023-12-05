@@ -80,7 +80,7 @@ export default {
 }
 
 button {
-  background-color: #4CAF50;
+  background-color: var(--bs-primary);
   color: white;
   border: none;
   border-radius: 32px;

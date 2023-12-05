@@ -5,10 +5,10 @@ import {
   signOut,
 } from 'firebase/auth'
 
-import { GoogleAuthProvider, FacebookAuthProvider } from 'firebase/auth'
-import { useCurrentUser, useFirebaseAuth, getCurrentUser } from 'vuefire'
-import { ref, onMounted } from "vue"
-import { BACKEND_URL } from "./../common/constants"
+import {GoogleAuthProvider, FacebookAuthProvider} from 'firebase/auth'
+import {useCurrentUser, useFirebaseAuth, getCurrentUser} from 'vuefire'
+import {ref, onMounted} from "vue"
+import {BACKEND_URL} from "./../common/constants"
 import {store} from "./../store/store";
 
 
@@ -55,15 +55,16 @@ async function createLoggedInUser(data) {
     console.error("An error occurred:", error);
   }
 }
+
 function signInWithGoogle() {
   signInWithPopup(auth, googleAuthProvider).then(async (data) => {
     console.log("Sign in (Google) with popup returns UserCredentials: ", data)
     await createLoggedInUser(data)
   })
-    .catch((reason) => {
-      console.error('Failed signInWithGoogle', reason)
-      error.value = reason
-    })
+      .catch((reason) => {
+        console.error('Failed signInWithGoogle', reason)
+        error.value = reason
+      })
 }
 
 function signInWithFacebook() {
@@ -88,7 +89,6 @@ onMounted(() => {
     error.value = reason
   })
 
-  // this methods returns Promise<User>, can access its properties directly
   getCurrentUser().then((data) => {
     return (data)
   })
@@ -96,7 +96,7 @@ onMounted(() => {
 
 </script>
 
-<script> 
+<script>
 
 import {mapState} from "vuex";
 
@@ -123,23 +123,19 @@ export default {
 </script>
 
 <template>
-  <h1>Sign In Page</h1>
+  <BContainer>
+
+  </BContainer>
+  <h1>Account</h1>
   <p v-if="!signedIn"> Please Sign In to use the service. Thank you.</p>
   <p v-else> Currently logged in as {{ account.name }} with profile {{ profile.name }} </p>
+      <BButtonGroup>
+        <BButton v-if="!signedIn" @click="signInWithGoogle" variant="outline-primary">Sign in with Google</BButton>
+        <BButton variant="outline-primary" v-if="!signedIn" @click="signInWithFacebook">SignIn with Facebook</BButton>
+        <BButton variant="outline-danger" v-else @click="signingOut">Sign Out</BButton>
+      </BButtonGroup>
 
-  <div>
-    <main>
-      <button v-if="!signedIn" @click="signInWithGoogle">SignIn with Google</button>
-      <br />
-      <button v-if="!signedIn" @click="signInWithFacebook">SignIn with Facebook</button>
-      <button v-else @click="signingOut">Sign Out</button>
-    </main>
-
-  </div>
 </template>
 
 <style scoped>
-button {
-  margin: 4px;
-}
 </style>
