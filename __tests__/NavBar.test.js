@@ -33,13 +33,27 @@ describe('NavBar.vue', () => {
     beforeEach(() => {
         wrapper = mount(SideBar);
     })
-    it('renders the sidebar and shows the correct links based on user status', () => {
+    it('renders the sidebar', () => {
         expect(wrapper.find('.navbar').exists()).toBe(true);
+    });
 
+    it('renders sugarIntake link', () => {
         expect(wrapper.find('[to="/sugarIntake"]').exists()).toBe(true);
+    });
+
+    it('renders sugarhistory link', () => {
         expect(wrapper.find('[to="/sugarhistory"]').exists()).toBe(true);
+    });
+
+    it('renders choose-profile link', () => {
         expect(wrapper.find('[to="/choose-profile"]').exists()).toBe(true);
+    });
+
+    it('renders profiles link', () => {
         expect(wrapper.find('[to="/profiles"]').exists()).toBe(true);
+    });
+
+    it('renders goPremium link', () => {
         expect(wrapper.find('[to="/goPremium"]').exists()).toBe(true);
     });
 });
